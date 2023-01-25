@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>java-codesign</groupId>
+    <artifactId>java-codesign</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Java code-signing and notarization for MacOS</name>
+
+    <properties>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <github-user>drrename</github-user>
+        <github-repo>java-codesign-for-mac</github-repo>
+        <java.version>17</java.version>
+    </properties>
+    <scm>
+        <connection>scm:git:https://github.com/${github-user}/${github-repo}.git</connection>
+        <developerConnection>scm:git:git@github.com:${github-user}/${github-repo}.git</developerConnection>
+        <url>https://github.com/${github-user}/${github-repo}</url>
+        <tag>HEAD</tag>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>local-release-repo</id>
+            <url>file://${user.home}/local-maven-repository</url>
+        </repository>
+    </distributionManagement>
+</project>
