@@ -9,7 +9,7 @@
 
     <groupId>java-codesign</groupId>
     <artifactId>java-codesign</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.7</version>
     <name>Java code-sign</name>
     <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
 
