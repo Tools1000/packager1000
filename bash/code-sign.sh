@@ -3,9 +3,9 @@
 # constants
 
 JRE_PATH_IN_APP='/Contents/PlugIns/jre'
-ENTITLEMENTS_JVM='entitlements-jvm.plist'
-ENTITLEMENTS_LAUNCHER='entitlements-launcher.plist'
-CODESIGN_ARGS="-vvv --timestamp --force --options runtime -s ${CODESIGN_IDENTITY}"
+ENTITLEMENTS_JVM='../entitlements-jvm.plist'
+ENTITLEMENTS_LAUNCHER='../entitlements-launcher.plist'
+CODESIGN_ARGS=("-v" "--timestamp" "--force" "--options" "runtime")
 
 # variables
 
@@ -19,7 +19,7 @@ CODESIGN_IDENTITY=""
 # functions
 
 usage() {
-    echo "Usage: $0 -i [<codesign-identity>] -p [<input-path-to-sign>]" 1>&2; exit 1;
+    echo "Usage: $0 -s [<codesign-identity>] -p [<input-path-to-sign>]" 1>&2; exit 1;
 }
 
 exit_abnormal() {
@@ -30,23 +30,24 @@ exit_abnormal() {
 codesign_jre() {
     # codesign libs files
     echo "Code-signing JRE libs in ${1}$JRE_PATH_IN_APP"
-    find "$INPUT"$JRE_PATH_IN_APP -depth -name '*.lib' -exec codesign "$CODESIGN_ARGS" {} \;
+    find "${1}$JRE_PATH_IN_APP" -depth -type f \( -name '*.dylib' -o -name '*.jnilib' \) -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
      # find and deep sign .jar files inside the JRE
-    deepsign_jar "$INPUT"$JRE_PATH_IN_APP
+    deepsign_jar "${1}$JRE_PATH_IN_APP"
     # Sign the Java executable with entitlements
-    codesign "$CODESIGN_ARGS" --entitlements "${ENTITLEMENTS_JVM}" "$INPUT$JRE_PATH_IN_APP/Contents/Home/bin/java"
+    echo "Code-signing JRE executables"
+    codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" --entitlements ${ENTITLEMENTS_JVM} ${1}$JRE_PATH_IN_APP/Contents/Home/bin/java
 }
 
 # extracts .jar contents, find *lib files and signes them
 deepsign_jar(){
     echo "Deep signing jar files in " "${1}"
     # deep codesign jar files
-    for JAR_PATH in `find ${1} -depth -name "*.jar"`; do
+    for JAR_PATH in `find "${1}" -depth -name "*.jar"`; do
         if [ $DEBUG ]; then
                 echo "Now $JAR_PATH"
         fi
-        if [[ `unzip -l ${JAR_PATH} | grep '.lib'` ]]; then
-            JAR_FILENAME=$(basename ${JAR_PATH})
+        if [[ $(unzip -l ${JAR_PATH} | grep '.dylib\|.jnilib') ]]; then
+            JAR_FILENAME=$(basename "${JAR_PATH}")
             if [ $DEBUG ]; then
                 echo "Working on $JAR_FILENAME"
             fi
@@ -55,20 +56,24 @@ deepsign_jar(){
                 echo "Output path $OUTPUT_PATH"
             fi
             unzip -q "${JAR_PATH}" -d "${OUTPUT_PATH}"
-            find "${OUTPUT_PATH}" -name '*.lib' -exec codesign -vvv --force -s "${CODESIGN_IDENTITY}" {} \;
+            find "${OUTPUT_PATH}" -depth -type f \( -name '*.dylib' -o -name '*.jnilib' \) -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
             rm "${JAR_PATH}"
-            pushd ${OUTPUT_PATH} > /dev/null || exit 2
-            zip -qr ../${JAR_FILENAME} *
+            pushd "${OUTPUT_PATH}" > /dev/null || exit 2
+            zip -qr ../"${JAR_FILENAME}" *
             popd > /dev/null ||exit 2
             rm -r "${OUTPUT_PATH}"
         fi
+        if [ $DEBUG ]; then
+            echo "Done with $JAR_PATH"
+        fi
+    echo "Deep signing jar files done"
     done
 }
 
 # collect input
-while getopts ":p:i:" o; do
+while getopts ":p:s:" o; do
     case "${o}" in
-        i)
+        s)
             CODESIGN_IDENTITY=${OPTARG}
             ;;
         p)
@@ -86,6 +91,10 @@ while getopts ":p:i:" o; do
 done
 shift "$((OPTIND-1))"
 
+if [ $DEBUG ]; then
+    echo "Input params: identity: $CODESIGN_IDENTITY, input: $INPUT"
+fi
+
 # verify input
 if [ "$CODESIGN_IDENTITY" = "" ] || [ "$INPUT" = "" ]; then                 # If $NAME is an empty string,
     echo "Arguments required" 1>&2
@@ -98,10 +107,12 @@ if [ "${INPUT: -4}" == ".app" ]
     then
         codesign_jre "$INPUT"
         # Sign the launcher executable with entitlements
-        find "$INPUT/Contents/MacOS" -type f -name "*.sh" -exec codesign "$CODESIGN_ARGS" --entitlements "${ENTITLEMENTS_LAUNCHER}" {} \;
+        echo "Code-signing launchers ${1}$JRE_PATH_IN_APP"
+        find "$INPUT/Contents/MacOS" -type f -name "*.sh" -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" --entitlements "${ENTITLEMENTS_LAUNCHER}" {} \;
     else
         deepsign_jar "$INPUT"
 fi
 
 #finally, code-sign the base path
-find "$INPUT" -depth -type f -exec codesign "$CODESIGN_ARGS" {} \;
+echo "Code-signing base package $INPUT"
+codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" "$INPUT"
