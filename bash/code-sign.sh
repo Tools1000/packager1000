@@ -32,7 +32,7 @@ codesign_jre() {
     echo "Code-signing JRE libs in ${1}$JRE_PATH_IN_APP"
     find "${1}$JRE_PATH_IN_APP" -depth -type f -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
      # find and deep sign .jar files inside the JRE
-    deepsign_jar "${1}$JRE_PATH_IN_APP"
+#    deepsign_jar "${1}$JRE_PATH_IN_APP"
     # Sign the Java executable with entitlements
     echo "Code-signing JRE executables"
     codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" --entitlements ${ENTITLEMENTS_JVM} ${1}$JRE_PATH_IN_APP/Contents/Home/bin/*
