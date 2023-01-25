@@ -30,12 +30,12 @@ exit_abnormal() {
 codesign_jre() {
     # codesign libs files
     echo "Code-signing JRE libs in ${1}$JRE_PATH_IN_APP"
-    find "${1}$JRE_PATH_IN_APP" -depth -type f \( -name '*.dylib' -o -name '*.jnilib' \) -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
+    find "${1}$JRE_PATH_IN_APP" -depth -type f -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
      # find and deep sign .jar files inside the JRE
     deepsign_jar "${1}$JRE_PATH_IN_APP"
     # Sign the Java executable with entitlements
     echo "Code-signing JRE executables"
-    codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" --entitlements ${ENTITLEMENTS_JVM} ${1}$JRE_PATH_IN_APP/Contents/Home/bin/java
+    codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" --entitlements ${ENTITLEMENTS_JVM} ${1}$JRE_PATH_IN_APP/Contents/Home/bin/*
 }
 
 # extracts .jar contents, find *lib files and signes them
@@ -46,23 +46,22 @@ deepsign_jar(){
         if [ $DEBUG ]; then
                 echo "Now $JAR_PATH"
         fi
-        if [[ $(unzip -l ${JAR_PATH} | grep '.dylib\|.jnilib') ]]; then
-            JAR_FILENAME=$(basename "${JAR_PATH}")
-            if [ $DEBUG ]; then
-                echo "Working on $JAR_FILENAME"
-            fi
-              OUTPUT_PATH=${JAR_PATH%.*}
-            if [ $DEBUG ]; then
-                echo "Output path $OUTPUT_PATH"
-            fi
-            unzip -q "${JAR_PATH}" -d "${OUTPUT_PATH}"
-            find "${OUTPUT_PATH}" -depth -type f \( -name '*.dylib' -o -name '*.jnilib' \) -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
-            rm "${JAR_PATH}"
-            pushd "${OUTPUT_PATH}" > /dev/null || exit 2
-            zip -qr ../"${JAR_FILENAME}" *
-            popd > /dev/null ||exit 2
-            rm -r "${OUTPUT_PATH}"
+        JAR_FILENAME=$(basename "${JAR_PATH}")
+        if [ $DEBUG ]; then
+            echo "Working on $JAR_FILENAME"
         fi
+          OUTPUT_PATH=${JAR_PATH%.*}
+        if [ $DEBUG ]; then
+            echo "Output path $OUTPUT_PATH"
+        fi
+        unzip -q "${JAR_PATH}" -d "${OUTPUT_PATH}"
+        find "${OUTPUT_PATH}" -depth -type f -exec codesign -s "$CODESIGN_IDENTITY" "${CODESIGN_ARGS[@]}" {} \;
+        rm "${JAR_PATH}"
+        pushd "${OUTPUT_PATH}" > /dev/null || exit 2
+        zip -qr ../"${JAR_FILENAME}" *
+        popd > /dev/null ||exit 2
+        rm -r "${OUTPUT_PATH}"
+        codesign -s "$CODESIGN_IDENTITY" $JAR_PATH
         if [ $DEBUG ]; then
             echo "Done with $JAR_PATH"
         fi
