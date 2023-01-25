@@ -1,4 +1,4 @@
-package javacodesign;
+package io.github.javacodesign;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
