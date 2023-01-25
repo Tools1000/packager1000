@@ -4,7 +4,8 @@
     <groupId>java-codesign</groupId>
     <artifactId>java-codesign</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Java code-signing and notarization for MacOS</name>
+    <name>Java code-sign</name>
+    <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
 
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
