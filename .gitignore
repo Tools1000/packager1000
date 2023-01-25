@@ -25,3 +25,14 @@ hs_err_pid*
 # IntelliJ
 **/.idea/
 **.iml
+
+# Maven
+**/target/
+**/*.xml.releaseBackup
+/release.properties
+
+#Confidential
+secret.properties
+
+## More
+.DS_Store
