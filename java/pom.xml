@@ -20,12 +20,6 @@
         <java.version>17</java.version>
     </properties>
 
-    <testResources>
-        <testResource>
-            <directory>${basedir}/test/resources</directory>
-        </testResource>
-    </testResources>
-
     <scm>
         <connection>scm:git:https://github.com/${github-user}/${github-repo}.git</connection>
         <developerConnection>scm:git:git@github.com:${github-user}/${github-repo}.git</developerConnection>
@@ -70,11 +64,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>drrename</groupId>
-            <artifactId>drrename-commons</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.8.2</version>
@@ -83,6 +72,13 @@
     </dependencies>
 
     <build>
+
+        <testResources>
+            <testResource>
+                <directory>${basedir}/test/resources</directory>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
