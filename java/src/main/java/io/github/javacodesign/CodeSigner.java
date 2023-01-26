@@ -26,6 +26,14 @@ public class CodeSigner {
 
     private final Path entitlementsLauncher;
 
+    /**
+     *
+     * @param identity Developer certificate ID. For example, "Developer ID Application: John Doe (1234567890)"
+     * @param inputPath Path to the .app to sign, for example MyApp.app
+     * @param launcher Path to the executable that is launching the Java app
+     * @param entitlementsJvm Path to the entitlements file that is used to code sign the Java binary
+     * @param entitlementsLauncher Path to the entitlements file that is used to code sign the launcher
+     */
     public CodeSigner(String identity, Path inputPath, Path launcher, Path entitlementsJvm, Path entitlementsLauncher) {
         this.identity = identity;
         this.inputPath = inputPath;
@@ -34,12 +42,16 @@ public class CodeSigner {
         this.entitlementsLauncher = entitlementsLauncher;
     }
 
-    public CodeSigner sign() throws IOException {
+    /**
+     * Does the code signing.
+     *
+     * @throws IOException if an IO error occurs
+     */
+    public void sign() throws IOException {
         verifyInput();
         codeSignAll();
         codeSignJreExecutables();
         codeSignLaunchers();
-        return this;
     }
 
     private void codeSignLaunchers() {
@@ -48,6 +60,9 @@ public class CodeSigner {
         commandRunner.runCommand(command);
     }
 
+    /**
+     * Removes all signatures, "de-signs" all files.
+     */
     public void removeSignature() {
         List<String> command = buildRemoveSignatureCommand();
         CommandRunner commandRunner = new CommandRunner();
