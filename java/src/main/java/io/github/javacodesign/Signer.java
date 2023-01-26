@@ -59,7 +59,7 @@ public class Signer extends InputVerifier {
         checkCanExecute(launcher);
     }
 
-    private void codeSignLaunchers() {
+    private void codeSignLaunchers() throws IOException {
         List<String> command = buildSignLaunchersCommand();
         CommandRunner commandRunner = new CommandRunner();
         commandRunner.runCommand(command);
@@ -68,19 +68,19 @@ public class Signer extends InputVerifier {
     /**
      * Removes all signatures, "de-signs" all files.
      */
-    public void removeSignature() {
+    public void removeSignature() throws IOException {
         List<String> command = buildRemoveSignatureCommand();
         CommandRunner commandRunner = new CommandRunner();
         commandRunner.runCommand(command);
     }
 
-    private void codeSignAll() {
+    private void codeSignAll() throws IOException {
         List<String> command = buildCodeSignAllCommand();
         CommandRunner commandRunner = new CommandRunner();
         commandRunner.runCommand(command);
     }
 
-    private void codeSignJreExecutables() {
+    private void codeSignJreExecutables() throws IOException {
         List<String> command = buildCodeSignJreExecutablesCommand();
         CommandRunner commandRunner = new CommandRunner();
         commandRunner.runCommand(command);

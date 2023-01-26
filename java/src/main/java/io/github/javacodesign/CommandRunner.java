@@ -19,39 +19,36 @@ public class CommandRunner {
     @Setter
     @ToString
     @AllArgsConstructor
-    public class OutputStreams {
+    public static class OutputStreams {
         String sout;
         String serr;
     }
 
 
 
-    public OutputStreams runCommand(List<String> command) {
+    public OutputStreams runCommand(List<String> command) throws IOException {
         return runCommand(command.toArray(new String[0]));
     }
 
-    public OutputStreams runCommand(String[] command) {
+    public OutputStreams runCommand(String[] command) throws IOException {
         log.debug("Running {}", Arrays.toString(command));
         StringBuilder soutBuilder = new StringBuilder();
         StringBuilder serrBuilder = new StringBuilder();
-        try {
-            Process process = Runtime.getRuntime().exec(command);
-            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                log.debug("sout: {}", line);
-                soutBuilder.append(line);
-            }
-            final BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String line2;
-            while ((line2 = bufferedReader2.readLine()) != null) {
-                log.debug("serr: {}", line2);
-                serrBuilder.append(line2);
-
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Process process = Runtime.getRuntime().exec(command);
+        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            soutBuilder.append(line);
         }
-        return new OutputStreams(soutBuilder.toString(), serrBuilder.toString());
+        final BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        String line2;
+        while ((line2 = bufferedReader2.readLine()) != null) {
+            serrBuilder.append(line2);
+        }
+
+        var result = new OutputStreams(soutBuilder.toString(), serrBuilder.toString());
+        log.debug("Std out: {}", result.sout);
+        log.debug("Std err: {}", result.serr);
+        return result;
     }
 }

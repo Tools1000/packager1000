@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 @Slf4j
 public class Notarizer extends InputVerifier {
@@ -27,16 +26,44 @@ public class Notarizer extends InputVerifier {
         this.inputPath = inputPath;
     }
 
-    public void notarize() throws IOException {
+    /**
+     *
+     * @return The request UUID
+     * @throws IOException if an IO error occurs
+     */
+    public String submitNotarizationRequest() throws IOException {
         verifyInput(inputPath);
         Path zipPath = new Zipper().zipFolder(inputPath);
         log.debug("Input zipped to {}", zipPath);
-        CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeCommand(zipPath));
-        String uuid = output.sout.substring(output.sout.indexOf("RequestUUID = ") + "RequestUUID = ".length()).trim();
-        log.info("RequestUUID: {}", uuid);
+        CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeRequestCommand(zipPath));
+        var result = new NotarizationRequestOutputParser(output.sout).parse();
+        return result.requestUuid;
     }
 
-    private List<String> buildNotarizeCommand(Path zipPath){
+    public boolean pollForNotarizationResult(String requestUuid) throws IOException {
+        CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid));
+        var result = new NotarizationResultOutputParser(output.sout).parse();
+        return "success".matches(result.status);
+    }
+
+    private List<String> buildNotarizeResultCommand(String requestUuid) {
+        List<String> result = new ArrayList<>();
+
+        result.add("xcrun");
+        result.add("altool");
+        result.add("--notarization-info");
+        result.add(requestUuid);
+        result.add("--primary-bundle-id");
+        result.add(primaryBundleId);
+        result.add("--apiKey");
+        result.add(apiKey);
+        result.add("--apiIssuer");
+        result.add(apiIssuer);
+
+        return result;
+    }
+
+    private List<String> buildNotarizeRequestCommand(Path zipPath){
         List<String> result = new ArrayList<>();
 
         result.add("xcrun");
