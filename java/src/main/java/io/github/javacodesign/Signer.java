@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class CodeSigner {
+public class Signer extends InputVerifier {
 
     private final static String JRE_PATH_IN_APP = "/Contents/PlugIns/jre";
 
@@ -34,7 +34,7 @@ public class CodeSigner {
      * @param entitlementsJvm Path to the entitlements file that is used to code sign the Java binary
      * @param entitlementsLauncher Path to the entitlements file that is used to code sign the launcher
      */
-    public CodeSigner(String identity, Path inputPath, Path launcher, Path entitlementsJvm, Path entitlementsLauncher) {
+    public Signer(String identity, Path inputPath, Path launcher, Path entitlementsJvm, Path entitlementsLauncher) {
         this.identity = identity;
         this.inputPath = inputPath;
         this.launcher = launcher;
@@ -52,6 +52,11 @@ public class CodeSigner {
         codeSignAll();
         codeSignJreExecutables();
         codeSignLaunchers();
+    }
+
+    private void verifyInput() throws IOException {
+        verifyInput(inputPath, launcher, entitlementsJvm, entitlementsLauncher);
+        checkCanExecute(launcher);
     }
 
     private void codeSignLaunchers() {
@@ -146,34 +151,6 @@ public class CodeSigner {
         return result;
     }
 
-    private void verifyInput() throws IOException {
-        checkExists(inputPath);
-        checkExists(launcher);
-        checkExists(entitlementsJvm);
-        checkExists(entitlementsLauncher);
-        checkCanRead(inputPath);
-        checkCanExecute(launcher);
-        checkCanRead(entitlementsJvm);
-        checkCanRead(entitlementsLauncher);
-    }
-
-    private void checkExists(Path path) throws FileNotFoundException {
-        if(!Files.exists(path)){
-            throw new FileNotFoundException(path.toString());
-        }
-    }
-
-    private void checkCanRead(Path path) throws IOException {
-        if(!Files.isReadable(path)){
-            throw new IOException("Cannot read " + path);
-        }
-    }
-
-    private void checkCanExecute(Path path) throws IOException {
-        if(!Files.isExecutable(path)){
-            throw new IOException("Cannot execute " + path);
-        }
-    }
 
 
 }
