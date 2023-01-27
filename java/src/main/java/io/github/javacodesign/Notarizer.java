@@ -1,7 +1,8 @@
 package io.github.javacodesign;
 
-import com.github.ktools1000.CommandRunner;
-import com.github.ktools1000.Zipper;
+
+import com.github.tools1000.CommandRunner;
+import com.github.tools1000.Zipper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -42,10 +43,16 @@ public class Notarizer extends InputVerifier {
         return result.requestUuid;
     }
 
-    public boolean pollForNotarizationResult(String requestUuid) throws IOException {
+    public String pollForNotarizationResult(String requestUuid) throws IOException {
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid));
         var result = new NotarizationResultOutputParser(output.getSout()).parse();
-        return "success".matches(result.status);
+        return result.status;
+    }
+
+    public boolean notarize() throws IOException {
+        String uuid = submitNotarizationRequest();
+        String result = pollForNotarizationResult(uuid);
+        return "success".equals(result);
     }
 
     private List<String> buildNotarizeResultCommand(String requestUuid) {
