@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: CI with Maven
+name: Build
 env:
   JAVA_VERSION: 17
   JAVA_DISTRIBUTION: 'temurin'
