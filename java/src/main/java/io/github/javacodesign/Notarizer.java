@@ -1,5 +1,7 @@
 package io.github.javacodesign;
 
+import com.github.ktools1000.CommandRunner;
+import com.github.ktools1000.Zipper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -36,13 +38,13 @@ public class Notarizer extends InputVerifier {
         Path zipPath = new Zipper().zipFolder(inputPath);
         log.debug("Input zipped to {}", zipPath);
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeRequestCommand(zipPath));
-        var result = new NotarizationRequestOutputParser(output.sout).parse();
+        var result = new NotarizationRequestOutputParser(output.getSout()).parse();
         return result.requestUuid;
     }
 
     public boolean pollForNotarizationResult(String requestUuid) throws IOException {
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid));
-        var result = new NotarizationResultOutputParser(output.sout).parse();
+        var result = new NotarizationResultOutputParser(output.getSout()).parse();
         return "success".matches(result.status);
     }
 
