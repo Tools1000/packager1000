@@ -21,6 +21,24 @@
         <lombok.version>1.18.24</lombok.version>
     </properties>
 
+    <developers>
+        <developer>
+            <id>kerner</id>
+            <name>kerner1000</name>
+            <email>alexkerner1000@gmail.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
     <scm>
         <connection>scm:git:https://github.com/${github-user}/${github-repo}.git</connection>
         <developerConnection>scm:git:git@github.com:${github-user}/${github-repo}.git</developerConnection>
@@ -38,17 +56,6 @@
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/drrename/drrename-commons</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
