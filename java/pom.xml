@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>Java code-sign</name>
     <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
+    <url>https://github.com/DrRename/codesign-java-for-mac</url>
 
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
