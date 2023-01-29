@@ -4,6 +4,33 @@
 
 Tools for code-signing and notarization of Java applications for Apple macOS
 
+## General HowTo Code-signing and Notarization for macOS
+
+### Tell Apple about your App
+
+1. Register as a developer at [developer.apple.com](https://developer.apple.com/).
+
+2. Go to [developer.apple.com/account/resources/certificates/list](https://developer.apple.com/account/resources/certificates/list)
+   and register a new identifier for the app.
+
+   ![localImage](/images/Apple-Developer-Certificates-Identifiers-Profies.png)
+
+3. Go to [appstoreconnect.apple.com/apps](https://appstoreconnect.apple.com/apps)
+   and register a new App with the created identifier.
+
+   ![localImage](/images/Apple-Developer-new-App.png)
+
+4. Go to [appstoreconnect.apple.com/access/api](https://appstoreconnect.apple.com/access/api)
+   and create a developer API key.
+
+   ![localImage](/images/Apple-Developer-App-Store-Connect-API-Keys.png)
+
+   You will need the "Issuer ID" and the "KEY ID" later for the notarization.
+
+### Codesign your App
+
+### Notarize your App
+
 ## Shell script
 
 ## Java API
