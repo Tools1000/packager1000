@@ -31,7 +31,7 @@ class NotarizationResultOutputParserTest {
     @Test
     void parse01() {
         NotarizationResultOutputParser parser = new NotarizationResultOutputParser(sout);
-        var result = parser.parse();
+        NotarizationResultOutputParser.NotarizationOutputParserResult result = parser.parse();
         assertEquals("success", result.status);
     }
 }

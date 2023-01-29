@@ -23,7 +23,7 @@ class NotarizationRequestOutputParserTest {
     @Test
     void parse01() {
         NotarizationRequestOutputParser parser = new NotarizationRequestOutputParser(sout);
-        var result = parser.parse();
+        NotarizationRequestOutputParser.NotarizationOutputParserResult result = parser.parse();
         assertEquals("cb23ab25-b46b-424a-b0bb-d4f7f9175947", result.requestUuid);
 
     }

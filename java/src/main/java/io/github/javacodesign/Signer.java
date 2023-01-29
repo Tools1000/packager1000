@@ -4,11 +4,10 @@ package io.github.javacodesign;
 import com.github.tools1000.CommandRunner;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -16,7 +15,7 @@ public class Signer extends InputVerifier {
 
     private final static String JRE_PATH_IN_APP = "/Contents/PlugIns/jre";
 
-    private final static List<String> DEFAULT_CODESIGNING_ARGS = List.of("-v", "--timestamp", "--force", "--options", "runtime");
+    private final static List<String> DEFAULT_CODESIGNING_ARGS = Arrays.asList("-v", "--timestamp", "--force", "--options", "runtime");
 
     private final String identity;
 

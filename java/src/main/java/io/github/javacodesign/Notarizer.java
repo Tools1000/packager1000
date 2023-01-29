@@ -39,13 +39,13 @@ public class Notarizer extends InputVerifier {
         Path zipPath = new Zipper().zipFolder(inputPath);
         log.debug("Input zipped to {}", zipPath);
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeRequestCommand(zipPath));
-        var result = new NotarizationRequestOutputParser(output.getSout()).parse();
+        NotarizationRequestOutputParser.NotarizationOutputParserResult result = new NotarizationRequestOutputParser(output.getSout()).parse();
         return result.requestUuid;
     }
 
     public String pollForNotarizationResult(String requestUuid) throws IOException {
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid));
-        var result = new NotarizationResultOutputParser(output.getSout()).parse();
+        NotarizationResultOutputParser.NotarizationOutputParserResult result = new NotarizationResultOutputParser(output.getSout()).parse();
         return result.status;
     }
 
