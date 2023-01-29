@@ -190,7 +190,7 @@
         <dependency>
             <groupId>com.github.kerner1000</groupId>
             <artifactId>tools1000</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 
