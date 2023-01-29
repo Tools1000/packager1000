@@ -9,7 +9,6 @@
 
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
         <github-user>drrename</github-user>
         <github-repo>java-codesign-for-mac</github-repo>
         <resource.delimiter>@</resource.delimiter>
@@ -84,7 +83,7 @@
         <dependency>
             <groupId>com.github.kerner1000</groupId>
             <artifactId>tools1000</artifactId>
-            <version>0.0.6-SNAPSHOT</version>
+            <version>0.0.6</version>
         </dependency>
     </dependencies>
 
