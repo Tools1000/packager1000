@@ -4,17 +4,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class NotarizerResponse {
 
+    public boolean isUploadOk() {
+        return notarizationUpload != null && notarizationUpload.requestUuid != null;
+    }
+
+    public boolean isInfoOk() {
+        return notarizationInfo != null && "success".equals(notarizationInfo.status);
+    }
+
+    @Getter
+    @Setter
+    static class ProductError {
+
+    }
+
     @Getter
     @Setter
     static class NotarizationUpload {
-
-        public boolean isOk() {
-            return requestUuid != null;
-        }
 
         @JsonProperty("RequestUUID")
         String requestUuid;
@@ -23,10 +35,6 @@ public class NotarizerResponse {
     @Getter
     @Setter
     static class NotarizationInfo {
-
-        public boolean isOk() {
-            return status != null && "success".equals(status);
-        }
 
         @JsonProperty("Status")
         String status;
@@ -46,4 +54,7 @@ public class NotarizerResponse {
 
     @JsonProperty("success-message")
     String successMessage;
+
+    @JsonProperty("product-errors")
+    List<ProductError> productErrors;
 }

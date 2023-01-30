@@ -52,7 +52,7 @@ public class Notarizer extends InputVerifier {
     public boolean notarize(int retries, long timeout) throws IOException {
         NotarizerResponse result = notarizationUpload();
         log.debug("Got notarization result: {}", result);
-        if(result.notarizationUpload.isOk()) {
+        if(result.isUploadOk()) {
             NotarizerResponse pollResult = getNotarizationInfo(result.getNotarizationUpload().requestUuid);
             int cnt = 1;
             while("in progress".equals(pollResult.notarizationInfo.status)&& cnt <= retries){
@@ -66,7 +66,7 @@ public class Notarizer extends InputVerifier {
                 cnt++;
             }
         }
-        return result.notarizationUpload.isOk();
+        return result.isUploadOk();
     }
 
     private List<String> buildNotarizeResultCommand(String requestUuid) {

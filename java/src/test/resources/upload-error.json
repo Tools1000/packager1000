@@ -1,0 +1,15 @@
+{
+  "tool-version": "6.043.14043",
+  "tool-path": "\/Applications\/Xcode.app\/Contents\/SharedFrameworks\/ContentDeliveryServices.framework\/Versions\/A\/Frameworks\/AppStoreService.framework",
+  "os-version": "13.0.0",
+  "product-errors": [
+    {
+      "message": "Unable to upload your app for notarization.",
+      "userInfo": {
+        "NSLocalizedDescription": "Unable to upload your app for notarization.",
+        "NSLocalizedFailureReason": "Failed to authenticate with errors: (\n    \"Error Domain=ITunesConnectionAuthenticationErrorDomain Code=-26000 \\\"Failed to generate JWT token: Error Domain=NSCocoaErrorDomain Code=-43 \\\"Failed to load AuthKey file.\\\" UserInfo={NSLocalizedDescription=Failed to load AuthKey file., NSLocalizedFailureReason=The file \\U2018AuthKey_AuthKey_45A4P2SQ44.p8.p8\\U2019 could not be found in any of these locations: '~\/sources\/drkodi\/private_keys', '~\/private_keys', '~\/.private_keys', '~\/.appstoreconnect\/private_keys'.}\\\" UserInfo={NSLocalizedRecoverySuggestion=Failed to generate JWT token: Error Domain=NSCocoaErrorDomain Code=-43 \\\"Failed to load AuthKey file.\\\" UserInfo={NSLocalizedDescription=Failed to load AuthKey file., NSLocalizedFailureReason=The file \\U2018AuthKey_AuthKey_45A4P2SQ44.p8.p8\\U2019 could not be found in any of these locations: '~\/sources\/drkodi\/private_keys', '~\/private_keys', '~\/.private_keys', '~\/.appstoreconnect\/private_keys'.}, NSLocalizedDescription=Failed to generate JWT token: Error Domain=NSCocoaErrorDomain Code=-43 \\\"Failed to load AuthKey file.\\\" UserInfo={NSLocalizedDescription=Failed to load AuthKey file., NSLocalizedFailureReason=The file \\U2018AuthKey_AuthKey_45A4P2SQ44.p8.p8\\U2019 could not be found in any of these locations: '~\/sources\/drkodi\/private_keys', '~\/private_keys', '~\/.private_keys', '~\/.appstoreconnect\/private_keys'.}, NSLocalizedFailureReason=Apple Services operation failed.}\"\n)"
+      },
+      "code": -1011
+    }
+  ]
+}
