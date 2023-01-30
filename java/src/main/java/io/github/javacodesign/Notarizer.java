@@ -13,6 +13,13 @@ import java.util.List;
 @Slf4j
 public class Notarizer extends InputVerifier {
 
+    static final int DEFAULT_RETRIES = 5;
+
+    /**
+     * One minute default wait time
+     */
+    static final int DEFAULT_TIMEOUT = 1000 * 60;
+
 
     private final String primaryBundleId;
 
@@ -47,6 +54,11 @@ public class Notarizer extends InputVerifier {
         NotarizerResponse result = new NotarizationInfoOutputParser(output.getSout(), output.getSerr()).parse();
         log.debug("Got notarization poll result: {}", result);
         return result;
+    }
+
+
+    public boolean notarize() throws IOException {
+        return notarize(DEFAULT_RETRIES, DEFAULT_TIMEOUT);
     }
 
     public boolean notarize(int retries, long timeout) throws IOException {
