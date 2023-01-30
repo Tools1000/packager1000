@@ -1,0 +1,24 @@
+{
+  "tool-version": "6.043.14043",
+  "tool-path": "\/Applications\/Xcode.app\/Contents\/SharedFrameworks\/ContentDeliveryServices.framework\/Versions\/A\/Frameworks\/AppStoreService.framework",
+  "success-message": "No errors getting notarization info.",
+  "notarization-info": {
+    "Status": "success",
+    "Status Message": "Package Approved",
+    "LogFileURL": "https:\/\/osxapps-ssl.itunes.apple.com\/itunes-assets\/Enigma113\/v4\/90\/00\/64\/9000644c-3afd-aaf5-4a5f-99fb08c49a43\/developer_log.json?accessKey=1675266928_2351951905213949116_iG%2Btb52Z8OS0Ffv%2BikyVW7DgPvGNNOoXCeEql2a4mUQqv7U7DyYCNYSUXqp3tZmFiYPgXMd2%2FClNo0Hn3jLVgh65nTO1t6uRck4I8uzNATWz04cWKUILo6RR5aE7n0kvFjfR%2FalrqZpPTHVdR6WuZh9wxTgA4tF7uUTAf7RkiYo%3D",
+    "Date": "2023-01-26T16:55:28.000Z",
+    "RequestUUID": "cb23ab25-b46b-424a-b0bb-d4f7f9175947",
+    "Status Code": 0,
+    "Hash": "34197eb7b84e0c692cd4dc9844e1ec9d04350e1e668dc71285f8a79e70d3c0dd"
+  },
+  "os-version": "13.0.0",
+  "warnings": [
+    {
+      "message": "altool has been deprecated for notarization and starting in late 2023 will no longer be supported by the Apple notary service. You should start using notarytool to notarize your software.",
+      "userInfo": {
+        "NSLocalizedDescription": "altool has been deprecated for notarization and starting in late 2023 will no longer be supported by the Apple notary service. You should start using notarytool to notarize your software."
+      },
+      "code": -1030
+    }
+  ]
+}

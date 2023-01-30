@@ -1,0 +1,18 @@
+{
+  "tool-version": "6.043.14043",
+  "tool-path": "\/Applications\/Xcode.app\/Contents\/SharedFrameworks\/ContentDeliveryServices.framework\/Versions\/A\/Frameworks\/AppStoreService.framework",
+  "notarization-upload": {
+    "RequestUUID": "c959508b-9b9f-445c-a556-d16b2994c2d3"
+  },
+  "success-message": "No errors uploading 'DrKodi.app.zip'.",
+  "os-version": "13.0.0",
+  "warnings": [
+    {
+      "message": "altool has been deprecated for notarization and starting in late 2023 will no longer be supported by the Apple notary service. You should start using notarytool to notarize your software.",
+      "userInfo": {
+        "NSLocalizedDescription": "altool has been deprecated for notarization and starting in late 2023 will no longer be supported by the Apple notary service. You should start using notarytool to notarize your software."
+      },
+      "code": -1030
+    }
+  ]
+}

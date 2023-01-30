@@ -32,14 +32,14 @@ class NotarizerTest {
     @Test
     void testsubmitNotarizationRequest01() throws IOException {
         Notarizer notarizer = new Notarizer("com.drkodi", secrets.getProperty("notarization.api.key"), secrets.getProperty("notarization.api.issuer"), Paths.get("../test/resources/DrKodi.app"));
-        notarizer.submitNotarizationRequest();
+        notarizer.notarizationUpload();
     }
 
     @Test
     void testPoll01() throws IOException {
         Notarizer notarizer = new Notarizer("com.drkodi", secrets.getProperty("notarization.api.key"), secrets.getProperty("notarization.api.issuer"), Paths.get("../test/resources/DrKodi.app"));
-        NotarizationResultOutputParser.NotarizationOutputParserResult.Status result = notarizer.pollForNotarizationResult("cb23ab25-b46b-424a-b0bb-d4f7f9175947");
-        assertEquals(NotarizationResultOutputParser.NotarizationOutputParserResult.Status.SUCCESS, result);
+        NotarizerResponse result = notarizer.getNotarizationInfo("cb23ab25-b46b-424a-b0bb-d4f7f9175947");
+        assertEquals("success", result.getNotarizationInfo().status);
     }
 
     @Test
