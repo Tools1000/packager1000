@@ -35,6 +35,21 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 
 ### Notarize your App
 
+## Setting up GitHub Actions
+
+1. Download your certificate.
+
+2. Convert to base64 string and copy it to your clipboard: `base64 -i Developer\ ID\ Application\ John\ Doer\ \(12345ABCDE\).p12 | pbcopy`
+
+3. Create a repository variable and paste the base64 string:
+
+   ![localImage](/images/GitHub_MAC_DEVELOPER_CERTIFICATE.png)
+
+4. Create another variable and paste your password:
+
+   ![localImage](/images/GitHub_MAC_DEVELOPER_CERTIFICATE_PASSWORD.png)
+
+
 ## Shell script
 
 ## Java API
