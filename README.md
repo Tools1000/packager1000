@@ -29,7 +29,7 @@ Tools for code-signing and notarization of Java applications for Apple macOS
    
    **Important**: Download the API key, that is only possible once right after creation of the key! You will need it later.
    
-   create folder `private_keys` in home and move `*.p8` file there: `mkdir -p ~/private_keys; cp *.p8 ~/private_keys`
+   create folder `.private_keys` in home and move `*.p8` file there: `mkdir -p ~/private_keys; cp *.p8 ~/.private_keys`
 
 ### Codesign your App
 
