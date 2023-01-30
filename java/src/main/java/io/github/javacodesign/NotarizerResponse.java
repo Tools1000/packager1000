@@ -3,9 +3,11 @@ package io.github.javacodesign;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString
 @Getter
 @Setter
 public class NotarizerResponse {
@@ -24,6 +26,7 @@ public class NotarizerResponse {
 
     }
 
+    @ToString
     @Getter
     @Setter
     static class NotarizationUpload {
@@ -32,6 +35,7 @@ public class NotarizerResponse {
         String requestUuid;
     }
 
+    @ToString
     @Getter
     @Setter
     static class NotarizationInfo {
