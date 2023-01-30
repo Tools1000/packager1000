@@ -30,29 +30,44 @@ public class Notarizer extends InputVerifier {
     }
 
     /**
-     *
      * @return The request UUID
      * @throws IOException if an IO error occurs
      */
-    public String submitNotarizationRequest() throws IOException {
+    public NotarizationRequestOutputParser.NotarizationOutputParserResult submitNotarizationRequest() throws IOException {
         verifyInput(inputPath);
         Path zipPath = new Zipper().zipFolder(inputPath);
         log.debug("Input zipped to {}", zipPath);
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeRequestCommand(zipPath));
-        NotarizationRequestOutputParser.NotarizationOutputParserResult result = new NotarizationRequestOutputParser(output.getSout()).parse();
-        return result.requestUuid;
+        NotarizationRequestOutputParser.NotarizationOutputParserResult result = new NotarizationRequestOutputParser(output.getSout(), output.getSerr()).parse();
+        return result;
     }
 
-    public String pollForNotarizationResult(String requestUuid) throws IOException {
+    public NotarizationResultOutputParser.NotarizationOutputParserResult.Status pollForNotarizationResult(String requestUuid) throws IOException {
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid));
-        NotarizationResultOutputParser.NotarizationOutputParserResult result = new NotarizationResultOutputParser(output.getSout()).parse();
+        NotarizationResultOutputParser.NotarizationOutputParserResult result = new NotarizationResultOutputParser(output.getSout(), output.getSerr()).parse();
+        log.debug("Got notarization poll result: {}", result);
         return result.status;
     }
 
-    public boolean notarize() throws IOException {
-        String uuid = submitNotarizationRequest();
-        String result = pollForNotarizationResult(uuid);
-        return "success".equals(result);
+    public boolean notarize(int retries, long timeout) throws IOException {
+        NotarizationRequestOutputParser.NotarizationOutputParserResult result = submitNotarizationRequest();
+        log.debug("Got notarization result: {}", result);
+        if(result.isOk()) {
+            NotarizationResultOutputParser.NotarizationOutputParserResult.Status status = pollForNotarizationResult(result.getRequestUuid());
+            int cnt = 1;
+            while(NotarizationResultOutputParser.NotarizationOutputParserResult.Status.IN_PROGRESS == status && cnt <= retries){
+                try {
+                    Thread.sleep(timeout);
+                } catch (InterruptedException e) {
+                    throw new IOException(e);
+                }
+                log.debug("Checking for result again, attempt: {}", cnt);
+                status = pollForNotarizationResult(result.getRequestUuid());
+                cnt++;
+            }
+            return NotarizationResultOutputParser.NotarizationOutputParserResult.Status.SUCCESS == status;
+        }
+        return false;
     }
 
     private List<String> buildNotarizeResultCommand(String requestUuid) {

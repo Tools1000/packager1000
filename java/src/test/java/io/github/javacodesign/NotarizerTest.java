@@ -38,14 +38,21 @@ class NotarizerTest {
     @Test
     void testPoll01() throws IOException {
         Notarizer notarizer = new Notarizer("com.drkodi", secrets.getProperty("notarization.api.key"), secrets.getProperty("notarization.api.issuer"), Paths.get("../test/resources/DrKodi.app"));
-        String result = notarizer.pollForNotarizationResult("cb23ab25-b46b-424a-b0bb-d4f7f9175947");
-        assertEquals("success", result);
+        NotarizationResultOutputParser.NotarizationOutputParserResult.Status result = notarizer.pollForNotarizationResult("cb23ab25-b46b-424a-b0bb-d4f7f9175947");
+        assertEquals(NotarizationResultOutputParser.NotarizationOutputParserResult.Status.SUCCESS, result);
     }
 
     @Test
     void testNotarize01() throws IOException {
         Notarizer notarizer = new Notarizer("com.drkodi", secrets.getProperty("notarization.api.key"), secrets.getProperty("notarization.api.issuer"), Paths.get("../test/resources/DrKodi.app"));
-        boolean result = notarizer.notarize();
-        assertTrue(result);
+        boolean result = notarizer.notarize( 0, 1000);
+        assertFalse(result);
+    }
+
+    @Test
+    void testNotarize02() throws IOException {
+        Notarizer notarizer = new Notarizer("com.drkodi", secrets.getProperty("notarization.api.key"), secrets.getProperty("notarization.api.issuer"), Paths.get("../test/resources/DrKodi.app"));
+        boolean result = notarizer.notarize( 3, 1000);
+        assertFalse(result);
     }
 }

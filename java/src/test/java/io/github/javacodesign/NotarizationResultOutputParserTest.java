@@ -18,6 +18,8 @@ class NotarizationResultOutputParserTest {
             "   Status Code: 0\n" +
             "Status Message: Package Approved\n";
 
+    String sout2 = "No errors getting notarization info.       Date: 2023-01-30 08:33:30 +0000RequestUUID: 8e8cb5f0-aff0-4185-9a67-6a2781b5774d     Status: in progressStatus Code: 0";
+
     String serr = "2023-01-26 18:48:20.793 *** Warning: altool has been deprecated for notarization and starting in late 2023 will no longer be supported by the Apple notary service. You should start using notarytool to notarize your software. (-1030)";
 
     @BeforeEach
@@ -30,8 +32,15 @@ class NotarizationResultOutputParserTest {
 
     @Test
     void parse01() {
-        NotarizationResultOutputParser parser = new NotarizationResultOutputParser(sout);
+        NotarizationResultOutputParser parser = new NotarizationResultOutputParser(sout, serr);
         NotarizationResultOutputParser.NotarizationOutputParserResult result = parser.parse();
-        assertEquals("success", result.status);
+        assertEquals(NotarizationResultOutputParser.NotarizationOutputParserResult.Status.SUCCESS, result.status);
+    }
+
+    @Test
+    void parse02() {
+        NotarizationResultOutputParser parser = new NotarizationResultOutputParser(sout2, serr);
+        NotarizationResultOutputParser.NotarizationOutputParserResult result = parser.parse();
+        assertEquals(NotarizationResultOutputParser.NotarizationOutputParserResult.Status.IN_PROGRESS, result.status);
     }
 }
