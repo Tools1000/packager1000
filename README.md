@@ -26,6 +26,8 @@ Tools for code-signing and notarization of Java applications for Apple macOS
    ![localImage](/images/Apple-Developer-App-Store-Connect-API-Keys.png)
 
    You will need the "Issuer ID" and the "KEY ID" later for the notarization.
+   
+   **Important**: Download the API key, that is only possible once right after creation of the key! You will need it later.
 
 ### Codesign your App
 
