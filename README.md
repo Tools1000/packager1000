@@ -4,7 +4,7 @@
 
 Tools for code-signing and notarization of Java applications for Apple macOS
 
-## General HowTo Code-signing and Notarization for macOS
+## HowTo Code-signing and Notarization for macOS
 
 ### Tell Apple about your App
 
@@ -49,6 +49,17 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 
 ### Notarize your App
 
+#### Submit Notarization Request
+
+`xcrun altool --notarize-app --primary-bundle-id "com.drkodi" --apiKey "ABCDE12345" --apiIssuer "3a8a0000-5288-41dd-8527-b0000000028a" -t osx -f DrKodi.app.zip --output-format json`
+
+**Note**: trying to upload an .app file will fail. Instead, zip it first and upload the zip file.
+
+#### Query for Results
+
+`xcrun altool --notarization-info 'cb00ab00-b46b-424a-b0dd-d4f7f9111147' --primary-bundle-id "com.drkodi" --apiKey "ABCDE12345" --apiIssuer "3a8a0000-5288-41dd-8527-b0000000028a" --output-format json`
+
+#### GitHub Actions
 
 ## Shell script
 
@@ -57,3 +68,4 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 ## Sources
 
 + [github.com/Apple-Actions/upload-testflight-build/issues/27](https://github.com/Apple-Actions/upload-testflight-build/issues/27)
++ [docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development](https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development)
