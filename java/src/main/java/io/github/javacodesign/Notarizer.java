@@ -50,23 +50,24 @@ public class Notarizer extends InputVerifier {
     }
 
     public boolean notarize(int retries, long timeout) throws IOException {
-        NotarizerResponse result = notarizationUpload();
-        log.debug("Got notarization result: {}", result);
-        if(result.isUploadOk()) {
-            NotarizerResponse pollResult = getNotarizationInfo(result.getNotarizationUpload().requestUuid);
+        NotarizerResponse notarizationUploadResult = notarizationUpload();
+        log.info("Got notarization notarizationUploadResult: {}", notarizationUploadResult);
+        if(notarizationUploadResult.isUploadOk()) {
+            NotarizerResponse notarizationInfoResult = getNotarizationInfo(notarizationUploadResult.getNotarizationUpload().requestUuid);
             int cnt = 1;
-            while("in progress".equals(pollResult.notarizationInfo.status)&& cnt <= retries){
+            while("in progress".equals(notarizationInfoResult.notarizationInfo.status)&& cnt <= retries){
                 try {
                     Thread.sleep(timeout);
                 } catch (InterruptedException e) {
                     throw new IOException(e);
                 }
-                log.debug("Checking for result again, attempt: {}", cnt);
-                pollResult = getNotarizationInfo(result.getNotarizationUpload().requestUuid);
+                log.debug("Checking for notarizationUploadResult again, attempt: {}", cnt);
+                notarizationInfoResult = getNotarizationInfo(notarizationUploadResult.getNotarizationUpload().requestUuid);
                 cnt++;
             }
+            log.info("NotarizationInfoResult: {}", notarizationInfoResult);
         }
-        return result.isUploadOk();
+        return notarizationUploadResult.isUploadOk();
     }
 
     private List<String> buildNotarizeResultCommand(String requestUuid) {
