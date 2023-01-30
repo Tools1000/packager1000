@@ -20,6 +20,7 @@ public class NotarizerResponse {
         return notarizationInfo != null && "success".equals(notarizationInfo.status);
     }
 
+    @ToString
     @Getter
     @Setter
     static class ProductError {
