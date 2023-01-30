@@ -60,10 +60,17 @@ public class Signer extends InputVerifier {
         checkCanExecute(launcher);
     }
 
+    private void run(List<String> command) throws IOException {
+        CommandRunner commandRunner = new CommandRunner();
+        CommandRunner.OutputStreams result = commandRunner.runCommand(command);
+        if(result.getSerr() != null && !result.getSerr().isEmpty()){
+            log.warn("Command {} finished with errors: {}", command, result.getSerr());
+        }
+    }
+
     private void codeSignLaunchers() throws IOException {
         List<String> command = buildSignLaunchersCommand();
-        CommandRunner commandRunner = new CommandRunner();
-        commandRunner.runCommand(command);
+        run(command);
     }
 
     /**
@@ -71,20 +78,17 @@ public class Signer extends InputVerifier {
      */
     public void removeSignature() throws IOException {
         List<String> command = buildRemoveSignatureCommand();
-        CommandRunner commandRunner = new CommandRunner();
-        commandRunner.runCommand(command);
+        run(command);
     }
 
     private void codeSignAll() throws IOException {
         List<String> command = buildCodeSignAllCommand();
-        CommandRunner commandRunner = new CommandRunner();
-        commandRunner.runCommand(command);
+        run(command);
     }
 
     private void codeSignJreExecutables() throws IOException {
         List<String> command = buildCodeSignJreExecutablesCommand();
-        CommandRunner commandRunner = new CommandRunner();
-        commandRunner.runCommand(command);
+        run(command);
     }
 
     private List<String> buildSignLaunchersCommand(){
