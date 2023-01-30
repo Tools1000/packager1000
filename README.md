@@ -33,9 +33,7 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 
 ### Codesign your App
 
-### Notarize your App
-
-## Setting up GitHub Actions
+#### GitHub Actions
 
 1. Download your certificate.
 
@@ -48,6 +46,8 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 4. Create another variable and paste your password:
 
    ![localImage](/images/GitHub_MAC_DEVELOPER_CERTIFICATE_PASSWORD.png)
+
+### Notarize your App
 
 
 ## Shell script
