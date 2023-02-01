@@ -37,6 +37,14 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 
 ### Codesign your App
 
+#### On `codesign --deep`
+
+On [developer.apple.com/forums/thread/128166](https://developer.apple.com/forums/thread/128166) they write:
+
+> Do not use the --deep argument. This feature is helpful in some specific circumstances but it will cause problems when signing a complex program.
+
+See here [developer.apple.com/forums/thread/129980](https://developer.apple.com/forums/thread/129980) for more info.
+
 #### GitHub Actions
 
 1. Download your certificate.
