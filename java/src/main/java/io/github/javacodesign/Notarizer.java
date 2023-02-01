@@ -44,12 +44,14 @@ public class Notarizer extends InputVerifier {
         verifyInput(inputPath);
         Path zipPath = new Zipper().zipFolder(inputPath);
         log.debug("Input zipped to {}", zipPath);
+        log.info("Uploading {} for notarization", zipPath);
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeRequestCommand(zipPath));
        NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(output.getSout(), output.getSerr());
         return parser.parse();
     }
 
     public NotarizerResponse getNotarizationInfo(String requestUuid) throws IOException {
+        log.info("Querying for notarization result");
         CommandRunner.OutputStreams output = new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid));
         NotarizerResponse result = new NotarizationInfoOutputParser(output.getSout(), output.getSerr()).parse();
         log.debug("Got notarization poll result: {}", result);
