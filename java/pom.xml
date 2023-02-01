@@ -3,7 +3,7 @@
 
     <groupId>io.github.drrename.codesignjava</groupId>
     <artifactId>codesignjava</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5-SNAPSHOT</version>
     <name>Java code-sign</name>
     <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
     <url>https://github.com/DrRename/codesign-java-for-mac</url>
