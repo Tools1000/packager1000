@@ -32,4 +32,9 @@ class SignerTest {
 //        codeSigner.removeSignature();
     }
 
+    @Test
+    void test02() throws IOException {
+        new Signer(identity, Paths.get("../test/resources/DrKodi.app"), Paths.get("../test/resources/DrKodi.app/Contents/MacOS/launcher-macosx-x86_64.sh"));
+    }
+
 }

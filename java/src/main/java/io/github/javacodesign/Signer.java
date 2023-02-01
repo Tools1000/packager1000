@@ -4,8 +4,12 @@ package io.github.javacodesign;
 import com.github.tools1000.CommandRunner;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +47,33 @@ public class Signer extends InputVerifier {
         this.entitlementsLauncher = entitlementsLauncher;
     }
 
+    public Signer(String identity, Path inputPath, Path launcher) {
+        this(identity, inputPath, launcher, getPath("/default-entitlements-jvm.plist"), getPath("/default-entitlements-launcher.plist"));
+    }
+
+    private static Path getPath(String name) {
+        try (InputStream in = Signer.class.getResourceAsStream(name);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            File tempDir = new File(System.getProperty("java.io.tmpdir"));
+            File tempFile = new File(tempDir, name);
+            tempFile.deleteOnExit();
+            FileWriter fileWriter = new FileWriter(tempFile, true);
+            BufferedWriter bw = new BufferedWriter(fileWriter);
+            reader.lines().forEach(s -> {
+                try {
+                    bw.write(s);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            bw.close();
+            log.info("Wrote {} to {}", name, tempFile);
+            return tempFile.toPath();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     /**
      * Does the code signing.
      *
@@ -69,26 +100,22 @@ public class Signer extends InputVerifier {
     }
 
     private void codeSignLaunchers() throws IOException {
-        List<String> command = buildSignLaunchersCommand();
-        run(command);
+        run(buildSignLaunchersCommand());
     }
 
     /**
      * Removes all signatures, "de-signs" all files.
      */
     public void removeSignature() throws IOException {
-        List<String> command = buildRemoveSignatureCommand();
-        run(command);
+        run(buildRemoveSignatureCommand());
     }
 
     private void codeSignAll() throws IOException {
-        List<String> command = buildCodeSignAllCommand();
-        run(command);
+        run(buildCodeSignAllCommand());
     }
 
     private void codeSignJreExecutables() throws IOException {
-        List<String> command = buildCodeSignJreExecutablesCommand();
-        run(command);
+        run(buildCodeSignJreExecutablesCommand());
     }
 
     private List<String> buildSignLaunchersCommand(){
@@ -130,9 +157,9 @@ public class Signer extends InputVerifier {
         result.addAll(DEFAULT_CODESIGNING_ARGS);
         result.add("--entitlements");
         result.add(entitlementsJvm.toString());
-        result.add(inputPath +JRE_PATH_IN_APP+"/Contents/Home/bin/java");
-        result.add(inputPath +JRE_PATH_IN_APP+"/Contents/Home/bin/jrunscript");
-        result.add(inputPath +JRE_PATH_IN_APP+"/Contents/Home/bin/keytool");
+        result.add(inputPath + JRE_PATH_IN_APP+"/Contents/Home/bin/java");
+        result.add(inputPath + JRE_PATH_IN_APP+"/Contents/Home/bin/jrunscript");
+        result.add(inputPath + JRE_PATH_IN_APP+"/Contents/Home/bin/keytool");
 
         return result;
     }
