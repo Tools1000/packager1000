@@ -3,8 +3,8 @@
 # constants
 
 JRE_PATH_IN_APP='/Contents/PlugIns/jre'
-ENTITLEMENTS_JVM='../entitlements-jvm.plist'
-ENTITLEMENTS_LAUNCHER='../entitlements-launcher.plist'
+ENTITLEMENTS_JVM='../default-entitlements-jvm.plist'
+ENTITLEMENTS_LAUNCHER='../default-entitlements-launcher.plist'
 CODESIGN_ARGS=("-v" "--timestamp" "--force" "--options" "runtime")
 
 # variables
