@@ -31,7 +31,7 @@ class NotarizationUploadOutputParserTest {
 
         String sout = TestUtil.readString(Paths.get("src/test/resources/upload.json"));
 
-        NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(sout, "");
+        NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(sout);
         NotarizerResponse result = parser.parse();
         assertTrue(result.isUploadOk());
         assertEquals("c959508b-9b9f-445c-a556-d16b2994c2d3", result.getNotarizationUpload().requestUuid);
@@ -43,7 +43,7 @@ class NotarizationUploadOutputParserTest {
 
         String sout = TestUtil.readString(Paths.get("src/test/resources/upload-error.json"));
 
-        NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(sout, "");
+        NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(sout);
         NotarizerResponse result = parser.parse();
        assertFalse(result.productErrors.isEmpty());
 

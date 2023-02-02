@@ -27,7 +27,7 @@ class NotarizationInfoOutputParserTest {
 
         String sout = TestUtil.readString(Paths.get("src/test/resources/info.json"));
 
-        NotarizationInfoOutputParser parser = new NotarizationInfoOutputParser(sout, "");
+        NotarizationInfoOutputParser parser = new NotarizationInfoOutputParser(sout);
         NotarizerResponse result = parser.parse();
         assertEquals("success", result.getNotarizationInfo().status);
     }
