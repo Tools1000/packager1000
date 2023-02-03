@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.drrename.codesignjava</groupId>
+    <artifactId>codesignjava-parent</artifactId>
+    <version>1.2.5-SNAPSHOT</version>
+    <name>Java package and code-sign parent</name>
+    <packaging>pom</packaging>
+    <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
+    <url>https://github.com/DrRename/codesign-java-for-mac</url>
+
+    <properties>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <github-user>drrename</github-user>
+        <github-repo>java-codesign-for-mac</github-repo>
+        <resource.delimiter>@</resource.delimiter>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <lombok.version>1.18.24</lombok.version>
+    </properties>
+
+    <developers>
+        <developer>
+            <id>kerner</id>
+            <name>kerner1000</name>
+            <email>alexkerner1000@gmail.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/${github-user}/${github-repo}.git</connection>
+        <developerConnection>scm:git:git@github.com:${github-user}/${github-repo}.git</developerConnection>
+        <url>https://github.com/${github-user}/${github-repo}</url>
+        <tag>codesignjava-version-1.2.4</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <modules>
+
+        <module>./codesignjava</module>
+        <module>./codesignjava-maven-plugin</module>
+    </modules>
+
+
+</project>
