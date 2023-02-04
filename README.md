@@ -1,6 +1,14 @@
 # Code-sign Java for macOS
 
-[![Build](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/drrename/codesign-java-for-mac.svg)](https://github.com/drrename/codesign-java-for-mac/blob/master/LICENSE) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava)
+[![Build](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/drrename/codesign-java-for-mac.svg)](https://github.com/drrename/codesign-java-for-mac/blob/master/LICENSE)
+
+## Library
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava)
+
+## Maven Plugin
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin)
 
 Tools for code-signing and notarization of Java applications for Apple macOS
 
