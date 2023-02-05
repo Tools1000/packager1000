@@ -59,10 +59,21 @@
     </distributionManagement>
 
     <modules>
-
         <module>./codesignjava</module>
         <module>./codesignjava-maven-plugin</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>github-packages</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/drrename/codesign-java-for-mac</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
 </project>
