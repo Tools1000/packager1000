@@ -63,6 +63,16 @@
         <module>./codesignjava-maven-plugin</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.danielflower.mavenplugins</groupId>
+                <artifactId>multi-module-maven-release-plugin</artifactId>
+                <version>3.6.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>github-packages</id>
