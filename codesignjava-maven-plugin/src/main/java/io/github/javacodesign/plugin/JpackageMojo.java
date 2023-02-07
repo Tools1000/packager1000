@@ -3,6 +3,7 @@ package io.github.javacodesign.plugin;
 import io.github.javacodesign.JLinker;
 import io.github.javacodesign.JPackager;
 import io.github.javacodesign.Notarizer;
+import net.lingala.zip4j.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -80,7 +81,7 @@ public class JpackageMojo extends AbstractMojo {
 
         try {
 
-        Path to = Paths.get(applicationModulesPath, project.getArtifact().getFile().getName().toString());
+        Path to = Paths.get(applicationModulesPath, project.getArtifact().getFile().getName());
         Path from = project.getArtifact().getFile().toPath();
         getLog().info("Copying from " + from + " to " + to );
         Files.copy(from, to);
@@ -101,6 +102,12 @@ public class JpackageMojo extends AbstractMojo {
 
                 if(jPackager.apply()){
                     getLog().info("JPackage successful");
+                    Path zipFilePath = Path.of(relativeToBuildDirectory(jpackageOut) + ".zip");
+
+                    try(ZipFile zipFile = new ZipFile(Path.of(relativeToBuildDirectory(jpackageOut) + ".zip").toString())){
+                        zipFile.addFolder(Path.of(relativeToBuildDirectory(jpackageOut)).toFile());
+                    }
+                    getLog().info("Zipped to " + zipFilePath);
 
                     if(
                         packageIdentifier != null && !packageIdentifier.isEmpty()
