@@ -43,7 +43,7 @@ public class Notarizer extends InputVerifier {
     public NotarizerResponse notarizationUpload() throws IOException {
         verifyInput(inputPath);
         Path uploadPath;
-        if (inputPath.endsWith(".zip")) {
+        if (inputPath.toString().toLowerCase().endsWith(".zip")) {
             uploadPath = inputPath;
         } else {
             try (ZipFile zipFile = new ZipFile(inputPath + ".zip")) {

@@ -104,7 +104,7 @@ public class JpackageMojo extends AbstractMojo {
                     getLog().info("JPackage successful");
                     Path zipFilePath = Path.of(relativeToBuildDirectory(jpackageOut) + ".zip");
 
-                    try(ZipFile zipFile = new ZipFile(Path.of(relativeToBuildDirectory(jpackageOut) + ".zip").toString())){
+                    try(ZipFile zipFile = new ZipFile(zipFilePath.toString())){
                         zipFile.addFolder(Path.of(relativeToBuildDirectory(jpackageOut)).toFile());
                     }
                     getLog().info("Zipped to " + zipFilePath);
@@ -115,7 +115,7 @@ public class JpackageMojo extends AbstractMojo {
                         && apiIssuer != null && !apiIssuer.isEmpty()
                     ) {
                         getLog().info("Running notarization");
-                        Notarizer notarizer = new Notarizer(packageIdentifier, apiKey, apiIssuer,Paths.get(relativeToBuildDirectory(jpackageOut)));
+                        Notarizer notarizer = new Notarizer(packageIdentifier, apiKey, apiIssuer,zipFilePath);
                         if(notarizer.notarize()){
                             getLog().info("Notarization successful");
                         } else {
