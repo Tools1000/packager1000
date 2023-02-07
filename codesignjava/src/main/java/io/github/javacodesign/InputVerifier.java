@@ -19,7 +19,6 @@ public class InputVerifier {
      * @throws IOException if one of provided paths can not be read
      */
     protected void verifyInput(Path... paths) throws IOException {
-        log.debug("Verifying {}", paths == null ? "null" : Arrays.toString(paths));
         for(Path path : paths){
             checkExists(path);
             checkCanRead(path);
@@ -32,7 +31,6 @@ public class InputVerifier {
      * @throws IllegalArgumentException if one of provided strings is null or empty
      */
     protected void verifyInput(String... strings) {
-        log.debug("Verifying {}", strings == null ? "null" : Arrays.toString(strings));
         for(String s : strings){
             if(s == null || s.isEmpty()){
                 throw new IllegalArgumentException("Invalid input string");
