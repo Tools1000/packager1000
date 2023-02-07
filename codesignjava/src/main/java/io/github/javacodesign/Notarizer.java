@@ -2,8 +2,8 @@ package io.github.javacodesign;
 
 
 import com.github.tools1000.CommandRunner;
-import com.github.tools1000.Zipper;
 import lombok.extern.slf4j.Slf4j;
+import net.lingala.zip4j.ZipFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,16 +42,25 @@ public class Notarizer extends InputVerifier {
      */
     public NotarizerResponse notarizationUpload() throws IOException {
         verifyInput(inputPath);
-        Path zipPath = new Zipper().zipFolder(inputPath);
-        log.debug("Input zipped to {}", zipPath);
-        log.info("Uploading {} for notarization", zipPath);
-       NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(new CommandRunner().runCommand(buildNotarizeRequestCommand(zipPath)).getSout());
+        Path uploadPath;
+        if (inputPath.endsWith(".zip")) {
+            uploadPath = inputPath;
+        } else {
+            try (ZipFile zipFile = new ZipFile(inputPath + ".zip")) {
+                zipFile.addFolder(inputPath.toFile());
+                log.debug("Input zipped to {}", zipFile);
+                uploadPath = Path.of(inputPath.toString(), ".zip");
+            }
+        }
+
+        log.info("Uploading {} for notarization", uploadPath);
+        NotarizationUploadOutputParser parser = new NotarizationUploadOutputParser(new CommandRunner().runCommand(buildNotarizeRequestCommand(uploadPath)).getSout());
         return parser.parse();
     }
 
-    public NotarizerResponse getNotarizationInfo(String requestUuid) throws IOException {
-        log.info("Querying for notarization result");
-        NotarizerResponse result = new NotarizationInfoOutputParser(new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid)).getSout()).parse();
+        public NotarizerResponse getNotarizationInfo (String requestUuid) throws IOException {
+            log.info("Querying for notarization result");
+            NotarizerResponse result = new NotarizationInfoOutputParser(new CommandRunner().runCommand(buildNotarizeResultCommand(requestUuid)).getSout()).parse();
         log.debug("Got notarization poll result: {}", result);
         return result;
     }
