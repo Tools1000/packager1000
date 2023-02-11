@@ -48,12 +48,12 @@ public class JPackager extends JavaCommandRunner {
     public JPackager(String javaHome, String name, String macPackageIdentifier, String appVersion, String module, String input, List<String> modulePath, String runtimeImage, String dest, String signingKeyUserName, String entitlements) {
         super(javaHome);
         this.name = name;
-        this.macPackageIdentifier = macPackageIdentifier;
         this.appVersion = appVersion;
         this.module = module;
         this.runtimeImage = runtimeImage;
         this.dest = dest;
         // may be null
+        this.macPackageIdentifier = macPackageIdentifier;
         this.input = input;
         this.modulePath = modulePath;
         this.signingKeyUserName = signingKeyUserName;
@@ -77,7 +77,7 @@ public class JPackager extends JavaCommandRunner {
     }
 
     public boolean apply() throws IOException {
-        verifyInput(this.name, this.macPackageIdentifier, this.module, this.dest, runtimeImage);
+        verifyInput(this.name, this.module, this.dest, runtimeImage);
         return runCommand(buildJPackagerCommand());
     }
 
@@ -128,8 +128,10 @@ public class JPackager extends JavaCommandRunner {
         command.add(name);
         command.add("--app-version");
         command.add(appVersion);
-        command.add("--mac-package-identifier");
-        command.add(macPackageIdentifier);
+        if(macPackageIdentifier != null && !macPackageIdentifier.isEmpty()) {
+            command.add("--mac-package-identifier");
+            command.add(macPackageIdentifier);
+        }
         command.add("--verbose");
 
         return command;
