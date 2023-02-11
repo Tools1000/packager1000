@@ -38,7 +38,7 @@ class JPackagerTest {
 
     @Disabled
     @Test
-    void testApply01() throws IOException {
+    void testApplyUnix01() throws IOException {
         JPackager jPackager = JPackager.builder()
                 .module("drkodi/drkodi.Launcher")
                 .name("DrKodi")
@@ -48,6 +48,21 @@ class JPackagerTest {
                 .modulePath(Collections.singletonList(Paths.get("/Users/alex/sources/drkodi/target/libs").toString()))
                 .runtimeImage(Paths.get("jre").toString())
                 .signingKeyUserName(new SecretsLoader().getSecret("developer.id"))
+                .build();
+        assertTrue(jPackager.apply());
+    }
+
+    @Disabled
+    @Test
+    void testApplyWin01() throws IOException {
+        JPackager jPackager = JPackager.builder()
+                .module("drkodi/drkodi.Launcher")
+                .name("DrKodi")
+                .appVersion("1.0.0")
+                .dest("appdir")
+//                .macPackageIdentifier("com.drkodi")
+                .modulePath(Collections.singletonList(Paths.get("C:\\Users\\Administrator\\sources\\drkodi\\target\\libs").toString()))
+                .runtimeImage(Paths.get("jre").toString())
                 .build();
         assertTrue(jPackager.apply());
     }

@@ -36,8 +36,16 @@ class JLinkerTest {
 
     @Disabled
     @Test
-    void testApply01() throws IOException {
-        JLinker jLinker = new JLinker(Arrays.asList("java.desktop", "java.base", "java.logging", "java.xml", "java.scripting", "java.compiler", "java.instrument", "jdk.unsupported", "javafx.base", "javafx.graphics","javafx.controls","javafx.fxml"), Paths.get("/Users/alex/sources/drkodi/target/mods").toString(), null) ;
+    void testApplyUnix01() throws IOException {
+        JLinker jLinker = new JLinker(Arrays.asList("java.desktop", "java.base", "java.logging", "java.xml", "java.scripting", "java.compiler", "java.instrument", "jdk.unsupported", "javafx.base", "javafx.graphics","javafx.controls","javafx.fxml", "java.sql", "java.naming"), Paths.get("/Users/alex/sources/drkodi/target/mods").toString(), null);
+        assertTrue(jLinker.apply());
+    }
+
+    @Disabled
+    @Test
+    void testApplyWin01() throws IOException {
+        JLinker jLinker = new JLinker(Arrays.asList("java.desktop", "java.base", "java.logging", "java.xml", "java.scripting", "java.compiler", "java.instrument", "jdk.unsupported", "javafx.base", "javafx.graphics","javafx.controls","javafx.fxml", "java.sql", "java.naming"),
+                Paths.get("C:\\Users\\Administrator\\sources\\drkodi\\target\\mods").toString(), null) ;
         assertTrue(jLinker.apply());
     }
 }
