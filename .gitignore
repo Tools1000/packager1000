@@ -37,3 +37,7 @@ secret.properties
 
 ## More
 .DS_Store
+
+
+jre/
+appdir/
