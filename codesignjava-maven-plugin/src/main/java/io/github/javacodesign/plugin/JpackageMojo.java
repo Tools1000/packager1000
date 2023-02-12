@@ -52,7 +52,7 @@ public class JpackageMojo extends AbstractMojo {
     @Parameter(required = true)
     String appVersion;
 
-    @Parameter(required = true)
+    @Parameter(required = false)
     String packageIdentifier;
 
     @Parameter(required = true)
