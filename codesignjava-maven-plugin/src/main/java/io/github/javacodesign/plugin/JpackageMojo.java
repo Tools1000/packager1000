@@ -43,20 +43,23 @@ public class JpackageMojo extends AbstractMojo {
     @Parameter(required = true)
     String jreModules;
 
-    @Parameter
-    String applicationModulesPath;
-
     @Parameter(required = true)
     String moduleName;
 
     @Parameter(required = true)
     String appVersion;
 
-    @Parameter(required = false)
-    String packageIdentifier;
-
     @Parameter(required = true)
     String moduleStarter;
+
+    @Parameter
+    String packageIdentifier;
+
+    @Parameter
+    String zipName;
+
+    @Parameter
+    String applicationModulesPath;
 
     @Parameter
     String developerId;
@@ -102,7 +105,7 @@ public class JpackageMojo extends AbstractMojo {
 
                 if(jPackager.apply()){
                     getLog().info("JPackage successful");
-                    Path zipFilePath = Path.of(relativeToBuildDirectory(jpackageOut) + ".zip");
+                    Path zipFilePath = Path.of(relativeToBuildDirectory(zipName != null ? zipName : jpackageOut) + ".zip");
 
                     try(ZipFile zipFile = new ZipFile(zipFilePath.toString())){
                         zipFile.addFolder(Path.of(relativeToBuildDirectory(jpackageOut)).toFile());
