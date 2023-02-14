@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/drrename/codesign-java-for-mac.svg)](https://github.com/drrename/codesign-java-for-mac/blob/master/LICENSE)
 
-Tools for code-signing and notarization of Java applications for Apple macOS
+Tools for code-signing and notarization of Java applications for Apple macOS.
 
 ## Library
 
@@ -12,10 +12,60 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin)
 
+### Usage
 
-## HowTo Code-signing and Notarization for macOS
+Add the following configuration to your `pom.yml`:
 
-### Tell Apple about yourself and your App
+```xml
+<profile>
+   <id>macosx-aarch64</id>
+   <properties>
+       <javafx.platform>mac-aarch64</javafx.platform>
+   </properties>
+   <build>
+       <finalName>${project.artifactId}-${javafx.platform}</finalName>
+       <plugins>
+           <plugin>
+               <groupId>io.github.drrename.codesignjava</groupId>
+               <artifactId>codesignjava-maven-plugin</artifactId>
+               <version>2.0.5</version>
+               <executions>
+                   <execution>
+                       <id>default</id>
+                       <goals>
+                           <goal>package-and-codesign</goal>
+                       </goals>
+                   </execution>
+               </executions>
+               <configuration>
+                   <jreModuleNames>java.desktop, java.base,java.logging, java.xml, java.scripting, java.compiler,
+                       java.instrument, jdk.unsupported, javafx.base, javafx.graphics,
+                       javafx.controls,javafx.fxml, java.sql, java.naming
+                   </jreModuleNames>
+                   <jreModules>${project.build.directory}/mods</jreModules>
+                   <applicationModulesPath>${project.build.directory}/libs</applicationModulesPath>
+                   <appVersion>1.0.0</appVersion>
+                   <moduleName>Name</moduleName>
+                   <packageIdentifier>com.name</packageIdentifier>
+                   <moduleStarter>module-name/LauncherClass</moduleStarter>
+                   <developerId>${MAC_DEVELOPER_ID}</developerId>
+                   <apiKey>${MAC_API_KEY_ID}</apiKey>
+                   <apiIssuer>${MAC_API_ISSUER_ID}</apiIssuer>
+                   <zipName>${project.artifactId}-${javafx.platform}</zipName>
+               </configuration>
+           </plugin>
+       </plugins>
+   </build>
+</profile>
+```
+
+Currently, you need to specify required modules explicitly with `jreModuleNames`. See #14.
+
+## More Info
+
+### HowTo Code-signing and Notarization for macOS
+
+#### Tell Apple about yourself and your App
 
 1. Register as a developer at [developer.apple.com](https://developer.apple.com/).
 
@@ -44,9 +94,9 @@ Tools for code-signing and notarization of Java applications for Apple macOS
 
    ![localImage](images/Apple-Developer-new-App.png)
 
-### Codesign your App
+#### Codesign your App
 
-#### On `codesign --deep`
+##### On `codesign --deep`
 
 On [developer.apple.com/forums/thread/128166](https://developer.apple.com/forums/thread/128166) they write:
 
@@ -54,7 +104,7 @@ On [developer.apple.com/forums/thread/128166](https://developer.apple.com/forums
 
 See here [developer.apple.com/forums/thread/129980](https://developer.apple.com/forums/thread/129980) for more info.
 
-#### GitHub Actions
+##### GitHub Actions
 
 1. Download your certificate.
 
@@ -68,25 +118,19 @@ See here [developer.apple.com/forums/thread/129980](https://developer.apple.com/
 
    ![localImage](/images/GitHub_MAC_DEVELOPER_CERTIFICATE_PASSWORD.png)
 
-### Notarize your App
+#### Notarize your App
 
-#### Submit Notarization Request
+##### Submit notarization request
 
 `xcrun altool --notarize-app --primary-bundle-id "com.drkodi" --apiKey "ABCDE12345" --apiIssuer "3a8a0000-5288-41dd-8527-b0000000028a" -t osx -f DrKodi.app.zip --output-format json`
 
 **Note**: trying to upload an .app file will fail. Instead, zip it first and upload the zip file.
 
-#### Query for Results
+##### Query for results
 
 `xcrun altool --notarization-info 'cb00ab00-b46b-424a-b0dd-d4f7f9111147' --primary-bundle-id "com.drkodi" --apiKey "ABCDE12345" --apiIssuer "3a8a0000-5288-41dd-8527-b0000000028a" --output-format json`
 
-#### GitHub Actions
-
-## Shell script
-
-## Java API
-
-## Sources
+## Sources and additional information
 
 + [github.com/Apple-Actions/upload-testflight-build/issues/27](https://github.com/Apple-Actions/upload-testflight-build/issues/27)
 + [docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development](https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development)
