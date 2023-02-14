@@ -14,7 +14,55 @@ Tools for code-signing and notarization of Java applications for Apple macOS.
 
 ### Usage
 
-Add the following configuration to your `pom.yml`:
+Add the following configurations to your `pom.yml`:
+
+```xml
+<plugin>
+ <groupId>org.apache.maven.plugins</groupId>
+ <artifactId>maven-dependency-plugin</artifactId>
+ <executions>
+     <execution>
+         <id>copy-mods</id>
+         <phase>prepare-package</phase>
+         <goals>
+             <goal>copy-dependencies</goal>
+         </goals>
+         <configuration>
+             <overWriteIfNewer>true</overWriteIfNewer>
+             <includeScope>runtime</includeScope>
+             <includeGroupIds>${modularGroupIds}</includeGroupIds>
+             <outputDirectory>${project.build.directory}/mods</outputDirectory>
+         </configuration>
+     </execution>
+     <execution>
+         <id>copy-libs</id>
+         <phase>prepare-package</phase>
+         <goals>
+             <goal>copy-dependencies</goal>
+         </goals>
+         <configuration>
+             <overWriteIfNewer>true</overWriteIfNewer>
+             <includeScope>runtime</includeScope>
+             <excludeGroupIds>${modularGroupIds}</excludeGroupIds>
+             <outputDirectory>${project.build.directory}/libs</outputDirectory>
+         </configuration>
+     </execution>
+ </executions>
+</plugin>
+```
+
+This will configure your build to copy and separate all dependencies to the following two paths:
+
+`{project.build.directory}/libs` and `{project.build.directory}/mods`.
+
+Specify filtering using the `${modularGroupIds}` property:
+
+```xml
+<modularGroupIds>org.openjfx</modularGroupIds>
+```
+
+In this example, JavaFX mods will go to `mods`, all other dependencies will go to `libs`.
+
 
 ```xml
 <profile>
@@ -59,7 +107,12 @@ Add the following configuration to your `pom.yml`:
 </profile>
 ```
 
-Currently, you need to specify required modules explicitly with `jreModuleNames`. See [Issue 14](https://github.com/DrRename/codesign-java-for-mac/issues/14).
++ Valid values for `javafx.platform` are `linux`, `linux-aarch64`, `mac`, `mac-aarch64`, `win`, `win-x86`. For more details, see [here](https://stackoverflow.com/questions/75006480/javafx-maven-platform-specific-build-mac-aarm64-qualifier).
+
++ Currently, you need to specify required modules explicitly with `jreModuleNames`. See [Issue 14](https://github.com/DrRename/codesign-java-for-mac/issues/14).
+
++ You need to specify modules that should be bundled together with the JRE via `jreModules`. A typical use case would be JavaFX mods.
++ Modules and libraries that should be bundled with your app are specified with `applicationModulesPath`.
 
 ## More Info
 
