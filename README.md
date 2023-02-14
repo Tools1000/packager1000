@@ -55,7 +55,7 @@ This will configure your build to copy and separate all dependencies to the foll
 
 `{project.build.directory}/libs` and `{project.build.directory}/mods`.
 
-Specify filtering using the `${modularGroupIds}` property:
+Specify filtering using the `{modularGroupIds}` property:
 
 ```xml
 <modularGroupIds>org.openjfx</modularGroupIds>
