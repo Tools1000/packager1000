@@ -59,7 +59,7 @@ Add the following configuration to your `pom.yml`:
 </profile>
 ```
 
-Currently, you need to specify required modules explicitly with `jreModuleNames`. See #14.
+Currently, you need to specify required modules explicitly with `jreModuleNames`. See [Issue 14](https://github.com/DrRename/codesign-java-for-mac/issues/14).
 
 ## More Info
 
