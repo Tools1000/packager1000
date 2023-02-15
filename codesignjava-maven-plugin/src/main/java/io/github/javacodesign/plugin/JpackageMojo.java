@@ -70,6 +70,9 @@ public class JpackageMojo extends AbstractMojo {
     @Parameter
     String apiIssuer;
 
+    @Parameter
+    String type;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -95,6 +98,7 @@ public class JpackageMojo extends AbstractMojo {
                 JPackager jPackager = JPackager.builder()
                         .module(moduleStarter)
                         .name(moduleName)
+                        .type(type)
                         .appVersion(appVersion)
                         .dest(relativeToBuildDirectory(jpackageOut))
                         .macPackageIdentifier(packageIdentifier)
