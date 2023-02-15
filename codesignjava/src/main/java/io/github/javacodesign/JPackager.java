@@ -14,6 +14,8 @@ public class JPackager extends JavaCommandRunner {
 
     private final String name;
 
+    private final String type;
+
     private final String macPackageIdentifier;
 
     private final String appVersion;
@@ -35,6 +37,7 @@ public class JPackager extends JavaCommandRunner {
     /**
      * @param javaHome             JAVA_HOME
      * @param name                 Name of the application and/or package
+     * @param type                 The type of package to create, valid values are: {"app-image", "dmg", "pkg"}
      * @param macPackageIdentifier An identifier that uniquely identifies the application for macOS
      * @param appVersion           Version of the application and/or package
      * @param module               The main module (and optionally main class) of the application
@@ -43,11 +46,13 @@ public class JPackager extends JavaCommandRunner {
      * @param runtimeImage         Path of the predefined runtime image that will be copied into the application image
      * @param dest                 Path where generated output file is placed
      * @param signingKeyUserName   Team or user name portion of Apple signing identities
-     * @param entitlements         Path to file containing entitlements to use when signing executables and libraries in the bundle
+     * @param entitlements         Path to file containing entitlements to use when signing executables and libraries in
+     *                             the bundle
      */
-    public JPackager(String javaHome, String name, String macPackageIdentifier, String appVersion, String module, String input, List<String> modulePath, String runtimeImage, String dest, String signingKeyUserName, String entitlements) {
+    public JPackager(String javaHome, String name, String type, String macPackageIdentifier, String appVersion, String module, String input, List<String> modulePath, String runtimeImage, String dest, String signingKeyUserName, String entitlements) {
         super(javaHome);
         this.name = name;
+        this.type = type;
         this.appVersion = appVersion;
         this.module = module;
         this.runtimeImage = runtimeImage;
@@ -62,6 +67,7 @@ public class JPackager extends JavaCommandRunner {
 
     /**
      * @param name                 Name of the application and/or package
+     * @param type                  The type of package to create, valid values are: {"app-image", "dmg", "pkg"}
      * @param macPackageIdentifier An identifier that uniquely identifies the application for macOS
      * @param appVersion           Version of the application and/or package
      * @param module               The main module (and optionally main class) of the application
@@ -70,10 +76,11 @@ public class JPackager extends JavaCommandRunner {
      * @param runtimeImage         Path of the predefined runtime image that will be copied into the application image
      * @param dest                 Path where generated output file is placed
      * @param signingKeyUserName   Team or user name portion of Apple signing identities
-     * @param entitlements         Path to file containing entitlements to use when signing executables and libraries in the bundle
+     * @param entitlements         Path to file containing entitlements to use when signing executables and libraries in
+     *                             the bundle
      */
-    public JPackager(String name, String macPackageIdentifier, String appVersion, String module, String input, List<String> modulePath, String runtimeImage, String dest, String signingKeyUserName, String entitlements) {
-        this(JavaCommandRunner.javaHome(), name, macPackageIdentifier, appVersion, module, input, modulePath, runtimeImage, dest, signingKeyUserName, entitlements);
+    public JPackager(String name, String type, String macPackageIdentifier, String appVersion, String module, String input, List<String> modulePath, String runtimeImage, String dest, String signingKeyUserName, String entitlements) {
+        this(JavaCommandRunner.javaHome(), name, type, macPackageIdentifier, appVersion, module, input, modulePath, runtimeImage, dest, signingKeyUserName, entitlements);
     }
 
     public boolean apply() throws IOException {
@@ -86,7 +93,7 @@ public class JPackager extends JavaCommandRunner {
 
         command.add(getJavaHome()+"/bin/"+"jpackage");
         command.add("--type");
-        command.add("app-image");
+        command.add((type != null && !type.isBlank()) ? type : "app-image");
         command.add("--runtime-image");
         command.add(runtimeImage);
 
