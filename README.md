@@ -2,6 +2,11 @@
 
 [![Build](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/drrename/codesign-java-for-mac.svg)](https://github.com/drrename/codesign-java-for-mac/blob/master/LICENSE)
 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_codesign-java-for-mac&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_codesign-java-for-mac)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=DrRename_codesign-java-for-mac&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=DrRename_codesign-java-for-mac)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DrRename_codesign-java-for-mac&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=DrRename_codesign-java-for-mac)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DrRename_codesign-java-for-mac&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DrRename_codesign-java-for-mac)
+
 Tools for code-signing and notarization of Java applications for Apple macOS.
 
 ## Library
