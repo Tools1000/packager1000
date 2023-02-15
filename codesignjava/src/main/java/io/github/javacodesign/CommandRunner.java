@@ -12,7 +12,7 @@ public class CommandRunner extends InputVerifier {
         com.github.tools1000.CommandRunner commandRunner = new com.github.tools1000.CommandRunner();
         com.github.tools1000.CommandRunner.OutputStreams result = commandRunner.runCommand(command);
         if(result.getSerr() != null && !result.getSerr().isEmpty()){
-            log.warn("Command {} finished with errors: {}", command, result.getSerr());
+            log.warn("Command {} finished with errors: {}", String.join(" ", command), result.getSerr());
         }
         return result.getSerr().isEmpty();
     }
