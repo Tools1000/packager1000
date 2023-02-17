@@ -7,7 +7,9 @@ public class LinuxJPackager extends JPackager {
     private String linuxMenuGroup;
 
     protected List<String> buildJPackagerCommand() {
-        java.util.List<java.lang.String> command = super.buildJPackagerCommand();
+        List<String> command = super.buildJPackagerCommand();
+        command.add("--type");
+        command.add("app-image");
         command.add("--linux-shortcut");
         if(linuxMenuGroup != null && !linuxMenuGroup.isEmpty()){
             command.add("--linux-menu-group");

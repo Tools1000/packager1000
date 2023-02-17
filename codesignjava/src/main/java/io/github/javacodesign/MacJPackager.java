@@ -108,4 +108,10 @@ public class MacJPackager extends JPackager {
         super.setDest(dest);
         return this;
     }
+
+    @Override
+    public MacJPackager setIcon(String icon) {
+         super.setIcon(icon);
+         return this;
+    }
 }

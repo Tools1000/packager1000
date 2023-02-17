@@ -57,6 +57,9 @@ public class JpackageMojo extends AbstractMojo {
     String packageIdentifier;
 
     @Parameter
+    String icon;
+
+    @Parameter
     String resourceDir;
 
     @Parameter
@@ -124,6 +127,7 @@ public class JpackageMojo extends AbstractMojo {
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
+                .setIcon(icon)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
@@ -160,6 +164,7 @@ public class JpackageMojo extends AbstractMojo {
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
+                .setIcon(icon)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
@@ -178,6 +183,7 @@ public class JpackageMojo extends AbstractMojo {
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
+                .setIcon(icon)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
@@ -197,6 +203,7 @@ public class JpackageMojo extends AbstractMojo {
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
+                .setIcon(icon)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
@@ -212,10 +219,10 @@ public class JpackageMojo extends AbstractMojo {
 
     private void runMac() throws MojoFailureException, IOException {
         JPackager jPackager = new MacJPackager()
-
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
+                .setIcon(icon)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))

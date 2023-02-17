@@ -24,6 +24,8 @@ public abstract class JPackager extends JavaCommandRunner {
 
     private String dest;
 
+    private String icon;
+
     private String resourceDir;
 
     public JPackager() {
@@ -45,6 +47,11 @@ public abstract class JPackager extends JavaCommandRunner {
         if(input != null && !input.isEmpty()){
             command.add("--input");
             command.add(input);
+        }
+
+        if(icon != null && !icon.isEmpty()){
+            command.add("--icon");
+            command.add(icon);
         }
 
         if(resourceDir != null && !resourceDir.isEmpty()){
@@ -135,6 +142,15 @@ public abstract class JPackager extends JavaCommandRunner {
 
     public JPackager setDest(String dest) {
         this.dest = dest;
+        return this;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public JPackager setIcon(String icon) {
+        this.icon = icon;
         return this;
     }
 

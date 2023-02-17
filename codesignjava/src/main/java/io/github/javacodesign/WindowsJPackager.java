@@ -76,4 +76,10 @@ public class WindowsJPackager extends JPackager {
         super.setDest(dest);
         return this;
     }
+
+    @Override
+    public WindowsJPackager setIcon(String icon) {
+        super.setIcon(icon);
+        return this;
+    }
 }
