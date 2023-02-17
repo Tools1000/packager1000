@@ -7,15 +7,28 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DrRename_codesign-java-for-mac&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=DrRename_codesign-java-for-mac)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DrRename_codesign-java-for-mac&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DrRename_codesign-java-for-mac)
 
-Tools for code-signing and notarization of Java applications for Apple macOS.
+Tools for packging, code-signing and notarization of Java applications for Apple macOS, Windows and Linux.
 
 ## Library
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava)
 
+### Features
+
++ Wrapper for [Jlink](https://docs.oracle.com/javase/9/tools/jlink.htm)
++ Wrapper for [JPackage](https://docs.oracle.com/en/java/javase/14/docs/specs/man/jpackage.html)
++ Wrapper for [xcrun notarytool](https://keith.github.io/xcode-man-pages/notarytool.1.html)
++ Wrapper for [codesign](https://www.manpagez.com/man/1/codesign/)
+
 ## Maven Plugin
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin)
+
+Integrate packaging, codesigning and notarizing with your Maven build.
+
+### For latest usage examples, see the following projects
+
++ [Dr.Kodi](https://github.com/DrRename/drkodi)
 
 ### Usage
 
