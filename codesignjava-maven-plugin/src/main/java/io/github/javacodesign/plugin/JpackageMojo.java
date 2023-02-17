@@ -1,6 +1,7 @@
 package io.github.javacodesign.plugin;
 
 import io.github.javacodesign.*;
+import net.lingala.zip4j.ZipFile;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -127,7 +128,23 @@ public class JpackageMojo extends AbstractMojo {
     }
 
     private void runLinux() throws MojoFailureException, IOException {
-        JPackager jPackager = new LinuxJPackager()
+        runAppImage();
+        Path path = Paths.get(relativeToBuildDirectory(jpackageOut), moduleName);
+        try(ZipFile zipFile = new ZipFile(path + "-"+appVersion + ".zip")){
+            zipFile.addFolder(path.toFile());
+        }
+
+        if(new DebDetector().apply())
+            runDmg();
+        else if(new RpmDetector().apply())
+            runRpm();
+        else
+            throw new MojoFailureException("Could neither find dmg nor rpm");
+
+    }
+
+    private void runAppImage() throws MojoFailureException, IOException {
+        JPackager jPackager = new LinuxAppImageJPackager()
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
@@ -136,10 +153,42 @@ public class JpackageMojo extends AbstractMojo {
                 .setModulePath(Collections.singletonList(applicationModulesPath));
 
         if (!jPackager.apply()) {
-            throw new MojoFailureException("JPackage failed.");
+            throw new MojoFailureException("JPackage (appImage) failed.");
         }
 
-        getLog().info("JPackage successful");
+        getLog().info("JPackage (appImage) successful");
+    }
+
+    private void runRpm() throws MojoFailureException, IOException {
+        JPackager jPackager = new LinuxRpmJPackager()
+                .setModule(moduleStarter)
+                .setName(moduleName)
+                .setAppVersion(appVersion)
+                .setDest(relativeToBuildDirectory(jpackageOut))
+                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
+                .setModulePath(Collections.singletonList(applicationModulesPath));
+
+        if (!jPackager.apply()) {
+            throw new MojoFailureException("JPackage (rpm) failed.");
+        }
+
+        getLog().info("JPackage (rpm) successful");
+    }
+
+    private void runDmg() throws MojoFailureException, IOException {
+        JPackager jPackager = new LinuxDebJPackager()
+                .setModule(moduleStarter)
+                .setName(moduleName)
+                .setAppVersion(appVersion)
+                .setDest(relativeToBuildDirectory(jpackageOut))
+                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
+                .setModulePath(Collections.singletonList(applicationModulesPath));
+
+        if (!jPackager.apply()) {
+            throw new MojoFailureException("JPackage (deb) failed.");
+        }
+
+        getLog().info("JPackage (deb) successful");
     }
 
     private void runMac() throws MojoFailureException, IOException {
