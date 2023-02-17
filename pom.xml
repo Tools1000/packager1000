@@ -3,7 +3,7 @@
 
     <groupId>io.github.drrename.codesignjava</groupId>
     <artifactId>codesignjava-parent</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>Java package and code-sign parent</name>
     <packaging>pom</packaging>
     <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>

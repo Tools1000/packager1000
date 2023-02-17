@@ -1,9 +1,7 @@
 package io.github.javacodesign.plugin;
 
-import io.github.javacodesign.JLinker;
-import io.github.javacodesign.JPackager;
-import io.github.javacodesign.Notarizer;
-import net.lingala.zip4j.ZipFile;
+import io.github.javacodesign.*;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -17,7 +15,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,22 +56,16 @@ public class JpackageMojo extends AbstractMojo {
     String packageIdentifier;
 
     @Parameter
-    String zipName;
-
-    @Parameter
     String applicationModulesPath;
 
     @Parameter
-    String developerId;
+    String macDeveloperId;
 
     @Parameter
-    String apiKey;
+    String macKeychainProfile;
 
     @Parameter
-    String apiIssuer;
-
-    @Parameter
-    String type;
+    String winUpgradeUuid;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -87,56 +81,112 @@ public class JpackageMojo extends AbstractMojo {
 
         try {
 
-        Path to = Paths.get(applicationModulesPath, project.getArtifact().getFile().getName());
-        Path from = project.getArtifact().getFile().toPath();
-        getLog().info("Copying from " + from + " to " + to );
-        Files.copy(from, to);
+            Path to = Paths.get(applicationModulesPath, project.getArtifact().getFile().getName());
+            Path from = project.getArtifact().getFile().toPath();
+            getLog().info("Copying from " + from + " to " + to);
+            Files.copy(from, to);
 
-            if(new JLinker(javaModules, jreModules, buildDirectory + "/" + jlinkOut).apply()) {
-                getLog().info("Jlink successful");
-
-                JPackager jPackager = JPackager.builder()
-                        .module(moduleStarter)
-                        .name(moduleName)
-                        .type(type)
-                        .appVersion(appVersion)
-                        .dest(relativeToBuildDirectory(jpackageOut))
-                        .macPackageIdentifier(packageIdentifier)
-                        .runtimeImage(relativeToBuildDirectory(jlinkOut))
-                        .signingKeyUserName(developerId)
-                        .modulePath(Collections.singletonList(applicationModulesPath))
-                        .build();
-
-                if(jPackager.apply()){
-                    getLog().info("JPackage successful");
-                    Path zipFilePath = Path.of(relativeToBuildDirectory(zipName != null ? zipName : jpackageOut) + ".zip");
-
-                    try(ZipFile zipFile = new ZipFile(zipFilePath.toString())){
-                        zipFile.addFolder(Path.of(relativeToBuildDirectory(jpackageOut)).toFile());
-                    }
-                    getLog().info("Zipped to " + zipFilePath);
-
-                    if(
-                        packageIdentifier != null && !packageIdentifier.isEmpty()
-                        && apiKey != null && !apiKey.isEmpty()
-                        && apiIssuer != null && !apiIssuer.isEmpty()
-                    ) {
-                        getLog().info("Running notarization");
-                        Notarizer notarizer = new Notarizer(packageIdentifier, apiKey, apiIssuer,zipFilePath);
-                        if(notarizer.notarize()){
-                            getLog().info("Notarization successful");
-                        } else {
-                            getLog().info("Notarization did not succeed in time.");
-                        }
-                    }
-                }
+            if (!new JLinker(javaModules, jreModules, buildDirectory + "/" + jlinkOut).apply()) {
+                throw new MojoFailureException("Jlink failed.");
             }
+
+            getLog().info("Jlink successful");
+
+            if (SystemUtils.IS_OS_WINDOWS) {
+                runWindows();
+            }
+            if (SystemUtils.IS_OS_LINUX) {
+                runLinux();
+            }
+            if (SystemUtils.IS_OS_MAC) {
+                runMac();
+            }
+
         } catch (IOException e) {
             throw new MojoExecutionException(e.toString());
         }
+
+    }
+
+    private void runWindows() throws IOException, MojoFailureException {
+        JPackager jPackager = new WindowsJPackager()
+                .setModule(moduleStarter)
+                .setName(moduleName)
+                .setAppVersion(appVersion)
+                .setDest(relativeToBuildDirectory(jpackageOut))
+                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
+                .setModulePath(Collections.singletonList(applicationModulesPath))
+                .setWinUpgradeUuid(winUpgradeUuid);
+
+        if (!jPackager.apply()) {
+            throw new MojoFailureException("JPackage failed.");
+        }
+
+        getLog().info("JPackage successful");
+
+    }
+
+    private void runLinux() throws MojoFailureException, IOException {
+        JPackager jPackager = new LinuxJPackager()
+                .setModule(moduleStarter)
+                .setName(moduleName)
+                .setAppVersion(appVersion)
+                .setDest(relativeToBuildDirectory(jpackageOut))
+                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
+                .setModulePath(Collections.singletonList(applicationModulesPath));
+
+        if (!jPackager.apply()) {
+            throw new MojoFailureException("JPackage failed.");
+        }
+
+        getLog().info("JPackage successful");
+    }
+
+    private void runMac() throws MojoFailureException, IOException {
+        JPackager jPackager = new MacJPackager()
+                .setModule(moduleStarter)
+                .setName(moduleName)
+                .setAppVersion(appVersion)
+                .setDest(relativeToBuildDirectory(jpackageOut))
+                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
+                .setModulePath(Collections.singletonList(applicationModulesPath))
+                // mac specific
+                .setMacPackageIdentifier(packageIdentifier)
+                .setMacSigningKeyUserName(macDeveloperId);
+
+
+        if (!jPackager.apply()) {
+            throw new MojoFailureException("JPackage failed.");
+        }
+
+        getLog().info("JPackage successful");
+
+        Path dmgPath = Paths.get(jPackager.getDest(), jPackager.getName() + "-" + jPackager.getAppVersion() + ".dmg");
+
+        getLog().info("Code signing dmg");
+
+        if (!new DmgCodeSigner().setDeveloperId(macDeveloperId).setDmgPath(dmgPath.toString()).apply()) {
+            throw new MojoFailureException("Code signing dmg failed");
+        }
+
+        getLog().info("Code signing dmg successful");
+
+        getLog().info("Running notarization");
+
+        Notarizer notarizer = new Notarizer(Paths.get(jPackager.getDest(), jPackager.getName() + "-" + jPackager.getAppVersion() + ".dmg"), macKeychainProfile);
+
+        if (!notarizer.notarize()) {
+            throw new MojoFailureException("Notarization failed.");
+        }
+        getLog().info("Notarization successful");
+        getLog().info("Running notarization stapler");
+        if (!new NotarizationStapler().setDmgPath(dmgPath.toString()).apply()) {
+            throw new MojoFailureException("Notarization stapler failed.");
+        }
+        getLog().info("Notarization stapler successful");
     }
 
     private String relativeToBuildDirectory(String string) {
-        return this.buildDirectory + "/" + string.trim();
+        return Paths.get(this.buildDirectory.toString(), string.trim()).toString();
     }
 }
