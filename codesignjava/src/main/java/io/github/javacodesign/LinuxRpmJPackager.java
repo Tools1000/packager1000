@@ -2,7 +2,7 @@ package io.github.javacodesign;
 
 import java.util.List;
 
-public class LinuxRpmJPackager extends JPackager {
+public class LinuxRpmJPackager extends LinuxJPackager {
 
     @Override
     protected List<String> buildJPackagerCommand() {

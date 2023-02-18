@@ -68,6 +68,12 @@ public class JpackageMojo extends AbstractMojo {
     @Parameter
     String winUpgradeUuid;
 
+    @Parameter
+    String linuxDebMaintainer;
+
+    @Parameter
+    String linuxMenuGroup;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -162,6 +168,7 @@ public class JpackageMojo extends AbstractMojo {
 
     private void runRpm() throws MojoFailureException, IOException {
         JPackager jPackager = new LinuxRpmJPackager()
+                .setLinuxMenuGroup(linuxMenuGroup)
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
@@ -178,6 +185,8 @@ public class JpackageMojo extends AbstractMojo {
 
     private void runDmg() throws MojoFailureException, IOException {
         JPackager jPackager = new LinuxDebJPackager()
+                .setLinuxDebMaintainer(linuxDebMaintainer)
+                .setLinuxMenuGroup(linuxMenuGroup)
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
