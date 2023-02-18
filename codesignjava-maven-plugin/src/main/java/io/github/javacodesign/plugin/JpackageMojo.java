@@ -75,6 +75,9 @@ public class JpackageMojo extends AbstractMojo {
     String winUpgradeUuid;
 
     @Parameter
+    String macPackageName;
+
+    @Parameter
     String linuxDebMaintainer;
 
     @Parameter
@@ -228,7 +231,10 @@ public class JpackageMojo extends AbstractMojo {
                 .setModulePath(Collections.singletonList(applicationModulesPath))
                 .setMacPackageIdentifier(packageIdentifier)
                 .setMacSigningKeyUserName(macDeveloperId)
+                .setMacSigningKeyUserName(macDeveloperId)
+                .setMacPackageName(macPackageName);
                 .setResourceDir(resourceDir);
+
 
 
         if (!jPackager.apply()) {

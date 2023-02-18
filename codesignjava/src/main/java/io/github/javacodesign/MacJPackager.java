@@ -14,6 +14,8 @@ public class MacJPackager extends JPackager {
 
     private String macEntitlements;
 
+    private String macPackageName;
+
     public MacJPackager() {
 
     }
@@ -34,6 +36,10 @@ public class MacJPackager extends JPackager {
         if(macPackageIdentifier != null && !macPackageIdentifier.isEmpty()) {
             command.add("--mac-package-identifier");
             command.add(macPackageIdentifier);
+        }
+        if(macPackageName != null && !macPackageName.isEmpty()){
+            command.add("--mac-package-name");
+            command.add(macPackageName);
         }
         return command;
     }
@@ -66,6 +72,17 @@ public class MacJPackager extends JPackager {
         this.macEntitlements = macEntitlements;
         return this;
     }
+
+    public String getMacPackageName() {
+        return macPackageName;
+    }
+
+    public MacJPackager setMacPackageName(String macPackageName) {
+        this.macPackageName = macPackageName;
+        return this;
+    }
+
+    // Override //
 
     @Override
     public MacJPackager setName(String name) {
