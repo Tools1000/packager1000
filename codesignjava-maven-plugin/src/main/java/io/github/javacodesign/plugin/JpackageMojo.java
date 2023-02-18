@@ -253,7 +253,7 @@ public class JpackageMojo extends AbstractMojo {
 
         getLog().info("Code signing dmg successful");
 
-        getLog().info("Running notarization");
+        getLog().info("Running notarization (this will take a few minutes)");
 
         Notarizer notarizer = new Notarizer(Paths.get(jPackager.getDest(), jPackager.getName() + "-" + jPackager.getAppVersion() + ".dmg"), macKeychainProfile);
 
