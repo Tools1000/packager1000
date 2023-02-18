@@ -133,6 +133,7 @@ public class JpackageMojo extends AbstractMojo {
         try(ZipFile zipFile = new ZipFile(path + "-"+appVersion + ".zip")){
             zipFile.addFolder(path.toFile());
         }
+        getLog().info("Zipped app image to " + path + "-"+appVersion + ".zip");
 
         if(new DebDetector().apply())
             runDmg();
