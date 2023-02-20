@@ -9,6 +9,13 @@
 
 Tools for packging, code-signing and notarization of Java applications for Apple macOS, Windows and Linux.
 
+## Requirements
+
+### Windows
+
++ .NET Framework 3.5
++ https://wixtoolset.org/docs/wix3/
+
 ## Library
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava)
@@ -132,7 +139,11 @@ In this example, JavaFX mods will go to `mods`, all other dependencies will go t
 + You need to specify modules that should be bundled together with the JRE via `jreModules`. A typical use case would be JavaFX mods.
 + Modules and libraries that should be bundled with your app are specified with `applicationModulesPath`.
 
-## More Info
+## Further Reading
+
+### JPackage
+
++ https://docs.oracle.com/en/java/javase/16/jpackage/
 
 ### HowTo Code-signing and Notarization for macOS
 
