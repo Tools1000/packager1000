@@ -15,6 +15,7 @@ public class WindowsJPackager extends JPackager {
         command.add("--win-menu");
         command.add("--win-menu-group");
         command.add(getName());
+        command.add("--win-per-user-install");
         command.add("--win-shortcut");
         command.add("--win-upgrade-uuid");
         command.add(winUpgradeUuid);
