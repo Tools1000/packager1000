@@ -232,7 +232,7 @@ public class JpackageMojo extends AbstractMojo {
                 .setMacPackageIdentifier(packageIdentifier)
                 .setMacSigningKeyUserName(macDeveloperId)
                 .setMacSigningKeyUserName(macDeveloperId)
-                .setMacPackageName(macPackageName);
+                .setMacPackageName(macPackageName)
                 .setResourceDir(resourceDir);
 
 
