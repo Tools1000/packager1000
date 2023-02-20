@@ -57,6 +57,9 @@ public class JpackageMojo extends AbstractMojo {
     String packageIdentifier;
 
     @Parameter
+    String resourceDir;
+
+    @Parameter
     String applicationModulesPath;
 
     @Parameter
@@ -117,13 +120,15 @@ public class JpackageMojo extends AbstractMojo {
 
     private void runWindows() throws IOException, MojoFailureException {
         JPackager jPackager = new WindowsJPackager()
+                .setWinUpgradeUuid(winUpgradeUuid)
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
-                .setWinUpgradeUuid(winUpgradeUuid);
+                .setResourceDir(resourceDir)
+                ;
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage failed.");
@@ -157,7 +162,8 @@ public class JpackageMojo extends AbstractMojo {
                 .setAppVersion(appVersion)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath));
+                .setModulePath(Collections.singletonList(applicationModulesPath))
+                .setResourceDir(resourceDir);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage (appImage) failed.");
@@ -174,7 +180,8 @@ public class JpackageMojo extends AbstractMojo {
                 .setAppVersion(appVersion)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath));
+                .setModulePath(Collections.singletonList(applicationModulesPath))
+                .setResourceDir(resourceDir);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage (rpm) failed.");
@@ -192,7 +199,9 @@ public class JpackageMojo extends AbstractMojo {
                 .setAppVersion(appVersion)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath));
+                .setModulePath(Collections.singletonList(applicationModulesPath))
+                .setResourceDir(resourceDir)
+                ;
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage (deb) failed.");
@@ -203,15 +212,16 @@ public class JpackageMojo extends AbstractMojo {
 
     private void runMac() throws MojoFailureException, IOException {
         JPackager jPackager = new MacJPackager()
+
                 .setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
-                // mac specific
                 .setMacPackageIdentifier(packageIdentifier)
-                .setMacSigningKeyUserName(macDeveloperId);
+                .setMacSigningKeyUserName(macDeveloperId)
+                .setResourceDir(resourceDir);
 
 
         if (!jPackager.apply()) {

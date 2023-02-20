@@ -24,6 +24,8 @@ public abstract class JPackager extends JavaCommandRunner {
 
     private String dest;
 
+    private String resourceDir;
+
     public JPackager() {
 
     }
@@ -43,6 +45,11 @@ public abstract class JPackager extends JavaCommandRunner {
         if(input != null && !input.isEmpty()){
             command.add("--input");
             command.add(input);
+        }
+
+        if(resourceDir != null && !resourceDir.isEmpty()){
+            command.add("--resource-dir");
+            command.add(resourceDir);
         }
 
         if(modulePath != null)
@@ -128,6 +135,15 @@ public abstract class JPackager extends JavaCommandRunner {
 
     public JPackager setDest(String dest) {
         this.dest = dest;
+        return this;
+    }
+
+    public String getResourceDir() {
+        return resourceDir;
+    }
+
+    public JPackager setResourceDir(String resourceDir) {
+        this.resourceDir = resourceDir;
         return this;
     }
 }
