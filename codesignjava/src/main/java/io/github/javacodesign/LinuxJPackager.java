@@ -8,9 +8,9 @@ public class LinuxJPackager extends JPackager {
 
     protected List<String> buildJPackagerCommand() {
         List<String> command = super.buildJPackagerCommand();
-        command.add("--type");
-        command.add("app-image");
+
         command.add("--linux-shortcut");
+
         if(linuxMenuGroup != null && !linuxMenuGroup.isEmpty()){
             command.add("--linux-menu-group");
             command.add(linuxMenuGroup);

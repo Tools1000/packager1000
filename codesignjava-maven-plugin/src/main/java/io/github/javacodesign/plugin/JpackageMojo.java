@@ -102,11 +102,13 @@ public class JpackageMojo extends AbstractMojo {
             getLog().info("Copying from " + from + " to " + to);
             Files.copy(from, to);
 
+            getLog().info("Running Jlink");
             if (!new JLinker(javaModules, jreModules, buildDirectory + "/" + jlinkOut).apply()) {
                 throw new MojoFailureException("Jlink failed.");
             }
 
             getLog().info("Jlink successful");
+            getLog().info("Running JPackage");
 
             if (SystemUtils.IS_OS_WINDOWS) {
                 runWindows();
@@ -124,23 +126,26 @@ public class JpackageMojo extends AbstractMojo {
 
     }
 
-    private void runWindows() throws IOException, MojoFailureException {
-        JPackager jPackager = new WindowsJPackager()
-                .setWinUpgradeUuid(winUpgradeUuid)
-                .setModule(moduleStarter)
+    void configure(JPackager jPackager) {
+        jPackager.setModule(moduleStarter)
                 .setName(moduleName)
                 .setAppVersion(appVersion)
                 .setIcon(icon)
                 .setDest(relativeToBuildDirectory(jpackageOut))
                 .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
                 .setModulePath(Collections.singletonList(applicationModulesPath))
-                .setResourceDir(resourceDir)
-                ;
+                .setResourceDir(resourceDir);
+
+    }
+
+    private void runWindows() throws IOException, MojoFailureException {
+        WindowsJPackager jPackager = new WindowsJPackager();
+        configure(jPackager);
+        jPackager.setWinUpgradeUuid(winUpgradeUuid);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage failed.");
         }
-
         getLog().info("JPackage successful");
 
     }
@@ -163,79 +168,45 @@ public class JpackageMojo extends AbstractMojo {
     }
 
     private void runAppImage() throws MojoFailureException, IOException {
-        JPackager jPackager = new LinuxAppImageJPackager()
-                .setModule(moduleStarter)
-                .setName(moduleName)
-                .setAppVersion(appVersion)
-                .setIcon(icon)
-                .setDest(relativeToBuildDirectory(jpackageOut))
-                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath))
-                .setResourceDir(resourceDir);
+        LinuxAppImageJPackager jPackager = new LinuxAppImageJPackager();
+        configure(jPackager);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage (appImage) failed.");
         }
-
         getLog().info("JPackage (appImage) successful");
     }
 
     private void runRpm() throws MojoFailureException, IOException {
-        JPackager jPackager = new LinuxRpmJPackager()
-                .setLinuxMenuGroup(linuxMenuGroup)
-                .setModule(moduleStarter)
-                .setName(moduleName)
-                .setAppVersion(appVersion)
-                .setIcon(icon)
-                .setDest(relativeToBuildDirectory(jpackageOut))
-                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath))
-                .setResourceDir(resourceDir);
+        LinuxRpmJPackager jPackager = new LinuxRpmJPackager();
+        configure(jPackager);
+        jPackager.setLinuxMenuGroup(linuxMenuGroup);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage (rpm) failed.");
         }
-
         getLog().info("JPackage (rpm) successful");
     }
 
     private void runDmg() throws MojoFailureException, IOException {
-        JPackager jPackager = new LinuxDebJPackager()
-                .setLinuxDebMaintainer(linuxDebMaintainer)
-                .setLinuxMenuGroup(linuxMenuGroup)
-                .setModule(moduleStarter)
-                .setName(moduleName)
-                .setAppVersion(appVersion)
-                .setIcon(icon)
-                .setDest(relativeToBuildDirectory(jpackageOut))
-                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath))
-                .setResourceDir(resourceDir)
-                ;
+        LinuxDebJPackager jPackager = new LinuxDebJPackager();
+        configure(jPackager);
+        jPackager.setLinuxDebMaintainer(linuxDebMaintainer)
+                .setLinuxMenuGroup(linuxMenuGroup);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage (deb) failed.");
         }
-
         getLog().info("JPackage (deb) successful");
     }
 
     private void runMac() throws MojoFailureException, IOException {
-        JPackager jPackager = new MacJPackager()
-                .setModule(moduleStarter)
-                .setName(moduleName)
-                .setAppVersion(appVersion)
-                .setIcon(icon)
-                .setDest(relativeToBuildDirectory(jpackageOut))
-                .setRuntimeImage(relativeToBuildDirectory(jlinkOut))
-                .setModulePath(Collections.singletonList(applicationModulesPath))
-                .setMacPackageIdentifier(packageIdentifier)
+        MacJPackager jPackager = new MacJPackager();
+        configure(jPackager);
+        jPackager.setMacPackageIdentifier(packageIdentifier)
                 .setMacSigningKeyUserName(macDeveloperId)
                 .setMacSigningKeyUserName(macDeveloperId)
-                .setMacPackageName(macPackageName)
-                .setResourceDir(resourceDir);
-
-
+                .setMacPackageName(macPackageName);
 
         if (!jPackager.apply()) {
             throw new MojoFailureException("JPackage failed.");
