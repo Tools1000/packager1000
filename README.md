@@ -212,6 +212,30 @@ See here [developer.apple.com/forums/thread/129980](https://developer.apple.com/
 
 `xcrun altool --notarization-info 'cb00ab00-b46b-424a-b0dd-d4f7f9111147' --primary-bundle-id "com.drkodi" --apiKey "ABCDE12345" --apiIssuer "3a8a0000-5288-41dd-8527-b0000000028a" --output-format json`
 
+#### GitHub Actions
+
+##### Secrets
+
+Go to https://github.com/DrRename/drkodi/settings/secrets/actions and create repository/ organisation secrets.
+
+###### Developer ID, -certificate and -password.
+
+1. `MAC_DEVELOPER_ID` this should hold the name of your Apple developer certificate. For example, `Developer ID Application: John Doe (12345ABCDE)`. Note that there are different certificates for different purposes. See https://developer.apple.com/account/resources/certificates/add for more details.
+2. `MAC_DEVELOPER_CERTIFICATE` this is the actual certificate. You need to export your certificate from your keychain into a base64 string that can be passed on via a GitHub secret. See https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development and https://help.apple.com/xcode/mac/current/#/dev154b28f09 for more details.
+3.  During certificate export, you will need to provide a password. Store it in another organisation/ repository variable. Call it `MAC_DEVELOPER_CERTIFICATE_PASSWORD` for example.
+
+###### Apple App Store Connect Keys
+
+Go to https://appstoreconnect.apple.com/access/api and create a new key as described above. Like before, we need the key name/ id, and the key itself. A password is not required here.
+
+1. `MAC_API_KEY_ID` the name of the API key. Identical to `KEY ID` on the _App Store Connect_ page.
+2. `MAC_API_KEY` the key itself. Again, it is supposed to be a base64 string. Transform and copy to clipboard with the following command: `base64 -i .private_keys/AuthKey_12345ABCDE.p8 | pbcopy`.
+3. `MAC_API_ISSUER_ID` the key `Issuer ID`. Identical to Issuer ID on the _App Store Connect_ page. 
+
+###### One more secret
+
+1. `KEYCHAIN_PASSWORD`: _A new keychain will be created on the runner, so the password for the new keychain can be any new random string. In this example, the secret is named `KEYCHAIN_PASSWORD`._ From the docs (https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development).
+
 ## Sources and additional information
 
 + [github.com/Apple-Actions/upload-testflight-build/issues/27](https://github.com/Apple-Actions/upload-testflight-build/issues/27)
