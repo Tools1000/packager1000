@@ -124,7 +124,6 @@ In this example, JavaFX mods will go to `mods`, all other dependencies will go t
                    <developerId>${MAC_DEVELOPER_ID}</developerId>
                    <apiKey>${MAC_API_KEY_ID}</apiKey>
                    <apiIssuer>${MAC_API_ISSUER_ID}</apiIssuer>
-                   <zipName>${project.artifactId}-${javafx.platform}</zipName>
                </configuration>
            </plugin>
        </plugins>
@@ -138,6 +137,7 @@ In this example, JavaFX mods will go to `mods`, all other dependencies will go t
 
 + You need to specify modules that should be bundled together with the JRE via `jreModules`. A typical use case would be JavaFX mods.
 + Modules and libraries that should be bundled with your app are specified with `applicationModulesPath`.
++ for developerId, apiKey and apiIssuer, please see [Secrets] (#Secrets) section.
 
 ## Further Reading
 
