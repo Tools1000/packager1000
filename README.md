@@ -1,6 +1,6 @@
 # Code-sign Java for macOS
 
-[![Build](https://github.com/tools1000/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/drrename/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/tools1000/codesign-java-for-mac.svg)](https://github.com/drrename/codesign-java-for-mac/blob/master/LICENSE)
+[![Build](https://github.com/tools1000/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/tools1000/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/tools1000/codesign-java-for-mac.svg)](https://github.com/tools1000/codesign-java-for-mac/blob/master/LICENSE)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_codesign-java-for-mac&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Tools1000_codesign-java-for-mac)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Tools1000_codesign-java-for-mac&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Tools1000_codesign-java-for-mac)
@@ -18,7 +18,7 @@ Tools for packging, code-signing and notarization of Java applications for Apple
 
 ## Library
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.tools1000.codesignjava/codesignjava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.tools1000.codesignjava/codesignjava)
 
 ### Features
 
@@ -29,13 +29,13 @@ Tools for packging, code-signing and notarization of Java applications for Apple
 
 ## Maven Plugin
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.drrename.codesignjava/codesignjava-maven-plugin)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.tools1000.codesignjava/codesignjava-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.tools1000.codesignjava/codesignjava-maven-plugin)
 
 Integrate packaging, codesigning and notarizing with your Maven build.
 
 ### For latest usage examples, see the following projects
 
-+ [Dr.Kodi](https://github.com/DrRename/drkodi)
++ [Dr.Kodi](https://github.com/tools1000/drkodi)
 
 ### Usage
 
@@ -99,9 +99,9 @@ In this example, JavaFX mods will go to `mods`, all other dependencies will go t
        <finalName>${project.artifactId}-${javafx.platform}</finalName>
        <plugins>
            <plugin>
-               <groupId>io.github.drrename.codesignjava</groupId>
+               <groupId>io.github.tools1000.codesignjava</groupId>
                <artifactId>codesignjava-maven-plugin</artifactId>
-               <version>2.0.5</version>
+               <version>3.0.0</version>
                <executions>
                    <execution>
                        <id>default</id>
@@ -133,7 +133,7 @@ In this example, JavaFX mods will go to `mods`, all other dependencies will go t
 
 + Valid values for `javafx.platform` are `linux`, `linux-aarch64`, `mac`, `mac-aarch64`, `win`, `win-x86`. For more details, see [here](https://stackoverflow.com/questions/75006480/javafx-maven-platform-specific-build-mac-aarm64-qualifier).
 
-+ Currently, you need to specify required modules explicitly with `jreModuleNames`. See [Issue 14](https://github.com/DrRename/codesign-java-for-mac/issues/14).
++ Currently, you need to specify required modules explicitly with `jreModuleNames`. See [Issue 14](https://github.com/tools1000/codesign-java-for-mac/issues/14).
 
 + You need to specify modules that should be bundled together with the JRE via `jreModules`. A typical use case would be JavaFX mods.
 + Modules and libraries that should be bundled with your app are specified with `applicationModulesPath`.
@@ -216,7 +216,7 @@ See here [developer.apple.com/forums/thread/129980](https://developer.apple.com/
 
 ##### Secrets
 
-Go to https://github.com/DrRename/drkodi/settings/secrets/actions and create repository/ organisation secrets.
+Go to https://github.com/<your-organisation-or-user>/<your-project>/settings/secrets/actions and create repository/ organisation secrets.
 
 ###### Developer ID, -certificate and -password.
 
