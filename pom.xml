@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.drrename.codesignjava</groupId>
+    <groupId>io.github.tools1000.codesignjava</groupId>
     <artifactId>codesignjava-parent</artifactId>
     <version>3.0.1-SNAPSHOT</version>
     <name>Java package and code-sign parent</name>
     <packaging>pom</packaging>
     <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
-    <url>https://github.com/DrRename/codesign-java-for-mac</url>
+    <url>https://github.com/tools1000/codesign-java-for-mac</url>
 
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-        <github-user>drrename</github-user>
+        <github-user>tools1000</github-user>
         <github-repo>java-codesign-for-mac</github-repo>
         <resource.delimiter>@</resource.delimiter>
         <maven.compiler.source>${java.version}</maven.compiler.source>
