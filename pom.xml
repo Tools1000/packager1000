@@ -115,7 +115,7 @@
                 <repository>
                     <id>github-codesign-java-for-mac</id>
                     <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/drrename/codesign-java-for-mac</url>
+                    <url>https://maven.pkg.github.com/tools1000/codesign-java-for-mac</url>
                 </repository>
             </distributionManagement>
         </profile>
