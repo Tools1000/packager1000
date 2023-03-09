@@ -1,6 +1,7 @@
 package io.github.javacodesign;
 
 
+import com.github.tools1000.CommandRunner;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -35,6 +36,15 @@ public abstract class JPackager extends JavaCommandRunner {
     public boolean apply() throws IOException {
         verifyInput(this.name, this.module, this.dest, this.runtimeImage);
         return runCommand(buildJPackagerCommand());
+    }
+
+    @Override
+    boolean wasSuccessful(CommandRunner.OutputStreams outputStreams) {
+        boolean result = super.wasSuccessful(outputStreams);
+        if(result){
+            return !outputStreams.getSout().trim().startsWith("Error:");
+        }
+        return false;
     }
 
     protected List<String> buildJPackagerCommand() {
