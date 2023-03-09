@@ -38,15 +38,6 @@ public abstract class JPackager extends JavaCommandRunner {
         return runCommand(buildJPackagerCommand());
     }
 
-    @Override
-    boolean wasSuccessful(CommandRunner.OutputStreams outputStreams) {
-        boolean result = super.wasSuccessful(outputStreams);
-        if(result){
-            return !outputStreams.getSout().trim().startsWith("Error:");
-        }
-        return false;
-    }
-
     protected List<String> buildJPackagerCommand() {
         List<String> command = new ArrayList<>();
 

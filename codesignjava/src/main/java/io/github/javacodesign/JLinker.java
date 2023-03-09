@@ -1,5 +1,6 @@
 package io.github.javacodesign;
 
+import com.github.tools1000.CommandRunner;
 import lombok.Builder;
 
 import java.io.IOException;
@@ -35,6 +36,15 @@ public class JLinker extends JavaCommandRunner {
 
     public boolean apply() throws IOException {
         return runCommand(buildJLinkCommand());
+    }
+
+    @Override
+    boolean wasSuccessful(CommandRunner.OutputStreams outputStreams) {
+        boolean result = super.wasSuccessful(outputStreams);
+        if(result){
+            return !outputStreams.getSout().trim().startsWith("Error:");
+        }
+        return false;
     }
 
     private List<String> buildJLinkCommand() {
