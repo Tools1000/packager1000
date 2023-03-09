@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public abstract class JPackager extends JavaCommandRunner {
+public class JPackager extends JavaCommandRunner {
 
     private String name;
 

@@ -1,5 +1,6 @@
 package io.github.javacodesign;
 
+import com.github.tools1000.CommandRunner;
 import com.github.tools1000.SecretsLoader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JPackagerTest {
@@ -46,5 +48,12 @@ class JPackagerTest {
     @Test
     void testApplyWin01() throws IOException {
 
+    }
+
+    @Test
+    void testError(){
+        String out = "[17:23:54.274] jdk.jpackage.internal.PackagerException: Specified resource directory resource-dir: C:\\Users\\alex\\sources\\parrhesia1000/dist/windo\n" +
+                "ws does not exist       at jdk.jpackage/jdk.jpackage.internal.DeployParams.validate(DeployParams.java:243)      at jdk.jpackage/jdk.jpackage.internal.Arguments.processArguments(Arguments.java:523)      at jdk.jpackage/jdk.jpackage.main.Main.execute(Main.java:91)    at jdk.jpackage/jdk.jpackage.main.Main.main(Main.java:52)";
+        assertFalse(new JPackager().wasSuccessful(new CommandRunner.OutputStreams(out, null)));
     }
 }
