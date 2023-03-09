@@ -30,6 +30,7 @@ hs_err_pid*
 # Maven
 **/target/
 **/*.xml.releaseBackup
+**/pom.xml.versionsBackup
 /release.properties
 
 #Confidential
