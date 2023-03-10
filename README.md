@@ -1,4 +1,4 @@
-# Code-sign Java for macOS
+# Packaging, Code-Signing and Notarization Java Apps
 
 [![Build](https://github.com/tools1000/codesign-java-for-mac/actions/workflows/build.yml/badge.svg)](https://github.com/tools1000/codesign-java-for-mac/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/tools1000/codesign-java-for-mac.svg)](https://github.com/tools1000/codesign-java-for-mac/blob/master/LICENSE)
 
