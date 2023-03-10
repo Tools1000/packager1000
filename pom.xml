@@ -1,18 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.tools1000.codesignjava</groupId>
-    <artifactId>codesignjava-parent</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
-    <name>Java package and code-sign parent</name>
+    <groupId>io.github.tools1000.packager1000</groupId>
+    <artifactId>packager1000</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+    <name>Packager1000</name>
     <packaging>pom</packaging>
-    <description>Tools for code-signing and notarization of Java applications for Apple MacOS</description>
-    <url>https://github.com/tools1000/codesign-java-for-mac</url>
+    <description>Tools for packaging, code-signing and notarization of Java applications.</description>
+    <url>https://github.com/tools1000/packager1000</url>
 
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <github-user>tools1000</github-user>
-        <github-repo>codesign-java-for-mac</github-repo>
+        <github-repo>packager1000</github-repo>
         <resource.delimiter>@</resource.delimiter>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -59,8 +59,8 @@
     </distributionManagement>
 
     <modules>
-        <module>./codesignjava</module>
-        <module>./codesignjava-maven-plugin</module>
+        <module>./packager1000-libs</module>
+        <module>./packager1000-plugin</module>
     </modules>
 
     <build>
