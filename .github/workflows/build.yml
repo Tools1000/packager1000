@@ -43,7 +43,7 @@ jobs:
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
     - name: Build with Maven
-      run: mvn -B -Dsonar.host.url="https://sonarcloud.io" -Dsonar.organization=tools1000 -Dsonar.projectKey=Tools1000_codesign-java-for-mac package jacoco:report sonar:sonar
+      run: mvn -B package
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
