@@ -15,7 +15,7 @@ public class JLinker extends JavaCommandRunner {
 
     private final static String defaultJlinkModulePathArgument = "jmods";
 
-    private final static List<String> defaultJlinkArguments = Arrays.asList("--strip-native-commands", "--no-header-files", "--no-man-pages", "--strip-debug", "--compress=1");
+    private final static List<String> defaultJlinkArguments = Arrays.asList("--strip-native-commands", "--no-header-files", "--no-man-pages", "--strip-debug");
 
     private final List<String> modulesToAdd;
 
