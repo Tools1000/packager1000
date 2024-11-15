@@ -153,13 +153,13 @@ public class JpackageMojo extends AbstractMojo {
     private void runLinux() throws MojoFailureException, IOException {
         runAppImage();
         Path path = Paths.get(relativeToBuildDirectory(jpackageOut), moduleName);
-        try(ZipFile zipFile = new ZipFile(path + "-"+appVersion + ".zip")){
+        try(ZipFile zipFile = new ZipFile(path + "-"+ appVersion + ".zip")){
             zipFile.addFolder(path.toFile());
         }
-        getLog().info("Zipped app image to " + path + "-"+appVersion + ".zip");
+        getLog().info("Zipped app image to " + path + "-"+ appVersion + ".zip");
 
         if(new DebDetector().apply())
-            runDmg();
+            runDeb();
         else if(new RpmDetector().apply())
             runRpm();
         else
@@ -188,7 +188,7 @@ public class JpackageMojo extends AbstractMojo {
         getLog().info("JPackage (rpm) successful");
     }
 
-    private void runDmg() throws MojoFailureException, IOException {
+    private void runDeb() throws MojoFailureException, IOException {
         LinuxDebJPackager jPackager = new LinuxDebJPackager();
         configure(jPackager);
         jPackager.setLinuxDebMaintainer(linuxDebMaintainer)
@@ -204,7 +204,6 @@ public class JpackageMojo extends AbstractMojo {
         MacJPackager jPackager = new MacJPackager();
         configure(jPackager);
         jPackager.setMacPackageIdentifier(packageIdentifier)
-                .setMacSigningKeyUserName(macDeveloperId)
                 .setMacSigningKeyUserName(macDeveloperId)
                 .setMacPackageName(macPackageName);
 
