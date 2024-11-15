@@ -3,7 +3,7 @@
 
     <groupId>io.github.tools1000.packager1000</groupId>
     <artifactId>packager1000-parent</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.1-SNAPSHOT</version>
     <name>Packager1000</name>
     <packaging>pom</packaging>
     <description>Tools for packaging, code-signing and notarization of Java applications.</description>
@@ -44,7 +44,7 @@
         <connection>scm:git:https://github.com/${github-user}/${github-repo}.git</connection>
         <developerConnection>scm:git:git@github.com:${github-user}/${github-repo}.git</developerConnection>
         <url>https://github.com/${github-user}/${github-repo}</url>
-        <tag>packager1000-parent-version-4.0.0</tag>
+        <tag>codesignjava-version-2.0.4</tag>
     </scm>
 
     <distributionManagement>
