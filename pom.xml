@@ -3,7 +3,7 @@
 
     <groupId>io.github.tools1000.packager1000</groupId>
     <artifactId>packager1000-parent</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <name>Packager1000</name>
     <packaging>pom</packaging>
     <description>Tools for packaging, code-signing and notarization of Java applications.</description>
